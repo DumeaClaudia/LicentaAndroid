@@ -1,11 +1,8 @@
 package com.claudia.restaurants.server;
 
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.claudia.restaurants.cart.CartItem;
-import com.claudia.restaurants.cart.CartListViewAdapter;
 import com.claudia.restaurants.cart.CartServices;
 
 import org.json.JSONArray;
@@ -18,17 +15,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DownloadCartsTask extends AsyncTask<String, Void, Void> {
-    private CartListViewAdapter cartViewAdapter;
+public class DownloadCartList {
+    private String url;
     private CartServices cartServices;
 
-    public DownloadCartsTask(CartListViewAdapter cartViewAdapter, CartServices cartServices){
-        this.cartViewAdapter = cartViewAdapter;
+
+    public DownloadCartList(String url, CartServices cartServices) {
+
+        this.url = url;
         this.cartServices = cartServices;
     }
 
-    protected Void doInBackground(String... urls) {
-        String urldisplay = urls[0];
+    public void invoke() {
+        String urldisplay = url;
         String json = "";
 
         HttpURLConnection conn;
@@ -46,12 +45,12 @@ public class DownloadCartsTask extends AsyncTask<String, Void, Void> {
             Log.d("CLAU_LOG", "The response is: " + response);
             BufferedReader bufferedInputStream = new BufferedReader( new InputStreamReader(conn.getInputStream()));
 
-          String line = bufferedInputStream.readLine();
-          while(line  != null )
-          {
-              json = json + line;
-              line = bufferedInputStream.readLine();
-          }
+            String line = bufferedInputStream.readLine();
+            while(line  != null )
+            {
+                json = json + line;
+                line = bufferedInputStream.readLine();
+            }
 
             JSONArray array = new JSONArray(json);
             cartServices.removeElements();
@@ -59,7 +58,10 @@ public class DownloadCartsTask extends AsyncTask<String, Void, Void> {
                 JSONObject item = array.getJSONObject(i);
                 String restaurant = item.getString("restaurantName");
                 String date = item.getString("createdDate");
-                CartItem cartItem = new CartItem(restaurant, date);
+                String idCart = item.getString("idCart");
+                String restaurantImage = item.getString("restaurantImage");
+
+                CartItem cartItem = new CartItem(idCart, restaurant, date, restaurantImage);
                 cartServices.addCart(cartItem);
             }
 
@@ -68,14 +70,5 @@ public class DownloadCartsTask extends AsyncTask<String, Void, Void> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        return null;
-    }
-
-    protected void onPostExecute() {
-        cartViewAdapter.notifyDataSetChanged();
-
-
     }
 }

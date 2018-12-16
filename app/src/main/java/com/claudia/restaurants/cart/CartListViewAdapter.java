@@ -43,10 +43,10 @@ public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHold
             public void onClick(View view) {
                 Context context = view.getContext();
 
-               // Intent intent = new Intent(context, PictureItemDetailActivity.class);
-               // intent.putExtra(PictureItemDetailActivity.ARG_ITEM_ID, item.id);
+                Intent intent = new Intent(context, CartDetailsActivity.class);
+                intent.putExtra(CartDetailsActivity.CART_ID_ARG, item.idCart);
 
-               // context.startActivity(intent);
+               context.startActivity(intent);
             }
         });
 

@@ -24,4 +24,13 @@ public class CartServices {
    public void removeElements(){
         cartItems.clear();
    }
+
+   public CartItem getCartById(String id){
+       for (CartItem cartItem: cartItems) {
+           if(cartItem.idCart.equals(id)){
+               return cartItem;
+           }
+       }
+       return null;
+   }
 }

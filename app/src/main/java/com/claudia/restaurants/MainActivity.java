@@ -1,5 +1,6 @@
 package com.claudia.restaurants;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,10 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.claudia.restaurants.cart.CartItem;
 import com.claudia.restaurants.cart.CartListViewAdapter;
 import com.claudia.restaurants.cart.CartServices;
-import com.claudia.restaurants.server.DownloadCartsTask;
+import com.claudia.restaurants.server.DownloadCartList;
 import com.claudia.restaurants.server.ServerConfig;
 
 public class MainActivity extends AppCompatActivity
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new DownloadCartsTask(listViewAdapter, cartServices).execute(ServerConfig.getServletURL("get_cart_list"));
-                handler.postDelayed(this, 1000);
+                new DownloadCartsUpdateListTask(listViewAdapter, cartServices).execute(ServerConfig.getServletURL("get_cart_list"));
+                handler.postDelayed(this, 10000);
             }
         });
 
@@ -133,6 +133,29 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+     class DownloadCartsUpdateListTask extends AsyncTask<String, Void, String> {
+        private CartListViewAdapter cartViewAdapter;
+        private CartServices cartServices;
+
+        public DownloadCartsUpdateListTask(CartListViewAdapter cartViewAdapter, CartServices cartServices){
+            this.cartViewAdapter = cartViewAdapter;
+            this.cartServices = cartServices;
+        }
+
+        protected String doInBackground(String... urls) {
+            new DownloadCartList(urls[0], cartServices).invoke();
+            return "";
+        }
+
+        protected void onPostExecute(String s) {
+            cartViewAdapter.notifyDataSetChanged();
+
+
+        }
+
+    }
+
 
 
 }

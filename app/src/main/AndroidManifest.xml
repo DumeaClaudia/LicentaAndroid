@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".cart.CartDetailsActivity"
+            android:label="@string/title_activity_cart_details"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"
+            ></activity>
     </application>
 
 </manifest>
