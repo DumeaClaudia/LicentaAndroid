@@ -30,7 +30,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_main" />
+        <include layout="@layout/cart_list_view" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

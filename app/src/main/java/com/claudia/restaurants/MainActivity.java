@@ -9,10 +9,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.claudia.restaurants.cart.CartItem;
+import com.claudia.restaurants.cart.CartListViewAdapter;
+import com.claudia.restaurants.cart.CartServices;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +48,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        RecyclerView recyclerView = findViewById(R.id.cart_list_view);
+        CartServices cartServices = new CartServices();
+        cartServices.refresh();
+
+        recyclerView.setAdapter(new CartListViewAdapter(this,cartServices));
+
+
 
     }
 
