@@ -2,6 +2,7 @@ package com.claudia.restaurants.cart;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CartServices {
 
@@ -15,10 +16,12 @@ public class CartServices {
         return cartItems.size();
     }
 
-    public void refresh(){
-        cartItems.add(new CartItem("Restaurant1", "12.12.2012"));
-        cartItems.add(new CartItem("Restaurant1", "12.12.2012"));
-        cartItems.add(new CartItem("Restaurant1", "12.12.2012"));
 
-    }
+   public void addCart(CartItem cartItem){
+        cartItems.add(cartItem);
+   }
+
+   public void removeElements(){
+        cartItems.clear();
+   }
 }

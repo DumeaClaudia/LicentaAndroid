@@ -1,6 +1,7 @@
 package com.claudia.restaurants;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,10 +19,14 @@ import android.view.View;
 import com.claudia.restaurants.cart.CartItem;
 import com.claudia.restaurants.cart.CartListViewAdapter;
 import com.claudia.restaurants.cart.CartServices;
+import com.claudia.restaurants.server.DownloadCartsTask;
+import com.claudia.restaurants.server.ServerConfig;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    RecyclerView recyclerView;
 
+    CartServices cartServices;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +56,22 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        RecyclerView recyclerView = findViewById(R.id.cart_list_view);
-        CartServices cartServices = new CartServices();
-        cartServices.refresh();
+        recyclerView = findViewById(R.id.cart_list_view);
+        cartServices = new CartServices();
+        final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this,cartServices);
 
-        recyclerView.setAdapter(new CartListViewAdapter(this,cartServices));
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                new DownloadCartsTask(listViewAdapter, cartServices).execute(ServerConfig.getServletURL("get_cart_list"));
+                handler.postDelayed(this, 1000);
+            }
+        });
+
+
+
+        recyclerView.setAdapter(listViewAdapter);
 
 
 

@@ -1,4 +1,4 @@
-package com.claudia.restaurants;
+package com.claudia.restaurants.server;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
