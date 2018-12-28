@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new DownloadCartsUpdateListTask(listViewAdapter, cartServices).execute(ServerConfig.getServletURL("get_cart_list"));
+                new DownloadCartsUpdateListTask(listViewAdapter, cartServices).execute(ServerConfig.getServletURL("get_cart_list"), "", "");
                 handler.postDelayed(this, 10000);
             }
         });

@@ -2,33 +2,32 @@ package com.claudia.restaurants.cart;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class CartServices {
 
-    private List<CartItem> cartItems = new ArrayList<>();
+    private List<CartSummaryItem> cartSummaryItems = new ArrayList<>();
 
-    public CartItem getCartAtPostion(int position) {
-        return cartItems.get(position);
+    public CartSummaryItem getCartAtPostion(int position) {
+        return cartSummaryItems.get(position);
     }
 
     public int count() {
-        return cartItems.size();
+        return cartSummaryItems.size();
     }
 
 
-   public void addCart(CartItem cartItem){
-        cartItems.add(cartItem);
+   public void addCart(CartSummaryItem cartSummaryItem){
+        cartSummaryItems.add(cartSummaryItem);
    }
 
    public void removeElements(){
-        cartItems.clear();
+        cartSummaryItems.clear();
    }
 
-   public CartItem getCartById(String id){
-       for (CartItem cartItem: cartItems) {
-           if(cartItem.idCart.equals(id)){
-               return cartItem;
+   public CartSummaryItem getCartById(String id){
+       for (CartSummaryItem cartSummaryItem : cartSummaryItems) {
+           if(cartSummaryItem.idCart.equals(id)){
+               return cartSummaryItem;
            }
        }
        return null;

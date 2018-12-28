@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import com.claudia.restaurants.MainActivity;
 import com.claudia.restaurants.R;
 
-import java.util.List;
-
 public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHolder> {
 
     private final MainActivity mParentActivity;
@@ -33,7 +31,7 @@ public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHold
 
     @Override
     public void onBindViewHolder(final CartItemViewHolder holder, int position) {
-        final CartItem item = cartServices.getCartAtPostion(position);
+        final CartSummaryItem item = cartServices.getCartAtPostion(position);
         holder.restaurantTextView.setText(item.restaurantName);
         holder.createdDateTextView.setText(item.createdDate);
 

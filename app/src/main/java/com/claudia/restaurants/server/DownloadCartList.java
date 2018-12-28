@@ -2,7 +2,7 @@ package com.claudia.restaurants.server;
 
 import android.util.Log;
 
-import com.claudia.restaurants.cart.CartItem;
+import com.claudia.restaurants.cart.CartSummaryItem;
 import com.claudia.restaurants.cart.CartServices;
 
 import org.json.JSONArray;
@@ -61,8 +61,8 @@ public class DownloadCartList {
                 String idCart = item.getString("idCart");
                 String restaurantImage = item.getString("restaurantImage");
 
-                CartItem cartItem = new CartItem(idCart, restaurant, date, restaurantImage);
-                cartServices.addCart(cartItem);
+                CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, restaurant, date, restaurantImage);
+                cartServices.addCart(cartSummaryItem);
             }
 
         } catch (IOException e) {

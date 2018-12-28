@@ -31,11 +31,11 @@ public class CartDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void setCart(CartItem cartItem) {
-        getSupportActionBar().setTitle(cartItem.restaurantName);
+    public void setCart(CartSummaryItem cartSummaryItem) {
+        getSupportActionBar().setTitle(cartSummaryItem.restaurantName);
         TextView textView = findViewById(R.id.restaurantName_textView);
-        textView.setText(cartItem.restaurantName);
-        new DownloadImageTask((ImageView) findViewById(R.id.restaurant_image_view)).execute(ServerConfig.getImageURL(cartItem.restaurantImage));
+        textView.setText(cartSummaryItem.restaurantName);
+        new DownloadImageTask((ImageView) findViewById(R.id.restaurant_image_view)).execute(ServerConfig.getImageURL(cartSummaryItem.restaurantImage));
 
     }
 
