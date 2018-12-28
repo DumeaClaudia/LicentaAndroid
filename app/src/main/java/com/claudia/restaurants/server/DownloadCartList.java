@@ -56,12 +56,12 @@ public class DownloadCartList {
             cartServices.removeElements();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject item = array.getJSONObject(i);
-                String restaurant = item.getString("restaurantName");
-                String date = item.getString("createdDate");
                 String idCart = item.getString("idCart");
-                String restaurantImage = item.getString("restaurantImage");
+                boolean cartActive = item.getBoolean("cartActive");
+                String date = item.getString("createdDate");
+                String cartDescription = item.getString("cartDescription");
 
-                CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, restaurant, date, restaurantImage);
+                CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription);
                 cartServices.addCart(cartSummaryItem);
             }
 

@@ -32,10 +32,10 @@ public class CartDetailsActivity extends AppCompatActivity {
     }
 
     public void setCart(CartSummaryItem cartSummaryItem) {
-        getSupportActionBar().setTitle(cartSummaryItem.restaurantName);
+        getSupportActionBar().setTitle(cartSummaryItem.idCart);
         TextView textView = findViewById(R.id.restaurantName_textView);
-        textView.setText(cartSummaryItem.restaurantName);
-        new DownloadImageTask((ImageView) findViewById(R.id.restaurant_image_view)).execute(ServerConfig.getImageURL(cartSummaryItem.restaurantImage));
+        textView.setText(cartSummaryItem.cartDescription);
+        new DownloadImageTask((ImageView) findViewById(R.id.restaurant_image_view)).execute(ServerConfig.getImageURL(cartSummaryItem.cartDescription));
 
     }
 

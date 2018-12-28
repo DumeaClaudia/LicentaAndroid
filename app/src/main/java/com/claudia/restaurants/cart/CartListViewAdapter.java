@@ -32,9 +32,9 @@ public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHold
     @Override
     public void onBindViewHolder(final CartItemViewHolder holder, int position) {
         final CartSummaryItem item = cartServices.getCartAtPostion(position);
-        holder.restaurantTextView.setText(item.restaurantName);
-        holder.createdDateTextView.setText(item.createdDate);
 
+        holder.restaurantTextView.setText(item.cartDescription);
+        holder.createdDateTextView.setText(item.createdDate);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

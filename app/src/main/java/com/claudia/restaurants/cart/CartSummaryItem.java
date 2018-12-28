@@ -3,22 +3,24 @@ package com.claudia.restaurants.cart;
 public class CartSummaryItem {
 
     public String idCart;
+    public boolean cartActive;
     public String createdDate;
-    public String restaurantName;
-    public String restaurantImage;
+    public String cartDescription;
 
-    public CartSummaryItem(String idCart, String restaurantName, String createdDate, String restaurantImage) {
+    public CartSummaryItem(String idCart, boolean cartActive, String createdDate, String cartDescription) {
         this.idCart = idCart;
+        this.cartActive = cartActive;
         this.createdDate = createdDate;
-        this.restaurantName = restaurantName;
-        this.restaurantImage = restaurantImage;
+        this.cartDescription = cartDescription;
     }
 
     @Override
     public String toString() {
         return "CartSummaryItem{" +
-                "createdDate='" + createdDate + '\'' +
-                ", restaurantName='" + restaurantName + '\'' +
+                "idCart='" + idCart + '\'' +
+                ", cartActive=" + cartActive +
+                ", createdDate='" + createdDate + '\'' +
+                ", cartDescription='" + cartDescription + '\'' +
                 '}';
     }
 }
