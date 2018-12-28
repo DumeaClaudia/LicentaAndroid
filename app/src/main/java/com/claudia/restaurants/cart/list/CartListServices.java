@@ -1,9 +1,9 @@
-package com.claudia.restaurants.cart;
+package com.claudia.restaurants.cart.list;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartServices {
+public class CartListServices {
 
     private List<CartSummaryItem> cartSummaryItems = new ArrayList<>();
 

@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart;
+package com.claudia.restaurants.cart.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

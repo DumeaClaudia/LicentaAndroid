@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart;
+package com.claudia.restaurants.cart.list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +13,12 @@ import com.claudia.restaurants.R;
 public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHolder> {
 
     private final MainActivity mParentActivity;
-    private final CartServices cartServices;
+    private final CartListServices cartListServices;
 
     public CartListViewAdapter(
-            MainActivity parent, CartServices services) {
+            MainActivity parent, CartListServices services) {
         mParentActivity = parent;
-        cartServices = services;
+        cartListServices = services;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHold
 
     @Override
     public void onBindViewHolder(final CartItemViewHolder holder, int position) {
-        final CartSummaryItem item = cartServices.getCartAtPostion(position);
+        final CartSummaryItem item = cartListServices.getCartAtPostion(position);
 
         holder.restaurantTextView.setText(item.cartDescription);
         holder.createdDateTextView.setText(item.createdDate);
@@ -52,7 +52,7 @@ public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHold
 
     @Override
     public int getItemCount() {
-        return cartServices.count();
+        return cartListServices.count();
     }
 
 

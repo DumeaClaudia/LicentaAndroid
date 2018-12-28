@@ -2,8 +2,8 @@ package com.claudia.restaurants.server;
 
 import android.util.Log;
 
-import com.claudia.restaurants.cart.CartSummaryItem;
-import com.claudia.restaurants.cart.CartServices;
+import com.claudia.restaurants.cart.list.CartSummaryItem;
+import com.claudia.restaurants.cart.list.CartListServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,13 +17,13 @@ import java.net.URL;
 
 public class DownloadCartList {
     private String url;
-    private CartServices cartServices;
+    private CartListServices cartListServices;
 
 
-    public DownloadCartList(String url, CartServices cartServices) {
+    public DownloadCartList(String url, CartListServices cartListServices) {
 
         this.url = url;
-        this.cartServices = cartServices;
+        this.cartListServices = cartListServices;
     }
 
     public void invoke() {
@@ -53,7 +53,7 @@ public class DownloadCartList {
             }
 
             JSONArray array = new JSONArray(json);
-            cartServices.removeElements();
+            cartListServices.removeElements();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject item = array.getJSONObject(i);
                 String idCart = item.getString("idCart");
@@ -62,7 +62,7 @@ public class DownloadCartList {
                 String cartDescription = item.getString("cartDescription");
 
                 CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription);
-                cartServices.addCart(cartSummaryItem);
+                cartListServices.addCart(cartSummaryItem);
             }
 
         } catch (IOException e) {

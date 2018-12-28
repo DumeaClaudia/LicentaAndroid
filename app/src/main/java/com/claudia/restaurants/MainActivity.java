@@ -17,8 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.claudia.restaurants.cart.CartListViewAdapter;
-import com.claudia.restaurants.cart.CartServices;
+import com.claudia.restaurants.cart.list.CartListViewAdapter;
+import com.claudia.restaurants.cart.list.CartListServices;
 import com.claudia.restaurants.server.DownloadCartList;
 import com.claudia.restaurants.server.ServerConfig;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView recyclerView;
 
-    CartServices cartServices;
+    CartListServices cartListServices;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +57,19 @@ public class MainActivity extends AppCompatActivity
 
 
         recyclerView = findViewById(R.id.cart_list_view);
-        cartServices = new CartServices();
-        final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this,cartServices);
+        cartListServices = new CartListServices();
+        final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this, cartListServices);
+
+
+
+
+
 
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new DownloadCartsUpdateListTask(listViewAdapter, cartServices).execute(ServerConfig.getServletURL("get_cart_list"), "", "");
+                new DownloadCartsUpdateListTask(listViewAdapter, cartListServices).execute(ServerConfig.getServletURL("get_cart_list"), "", "");
                 handler.postDelayed(this, 10000);
             }
         });
@@ -136,15 +141,15 @@ public class MainActivity extends AppCompatActivity
 
      class DownloadCartsUpdateListTask extends AsyncTask<String, Void, String> {
         private CartListViewAdapter cartViewAdapter;
-        private CartServices cartServices;
+        private CartListServices cartListServices;
 
-        public DownloadCartsUpdateListTask(CartListViewAdapter cartViewAdapter, CartServices cartServices){
+        public DownloadCartsUpdateListTask(CartListViewAdapter cartViewAdapter, CartListServices cartListServices){
             this.cartViewAdapter = cartViewAdapter;
-            this.cartServices = cartServices;
+            this.cartListServices = cartListServices;
         }
 
         protected String doInBackground(String... urls) {
-            new DownloadCartList(urls[0], cartServices).invoke();
+            new DownloadCartList(urls[0], cartListServices).invoke();
             return "";
         }
 

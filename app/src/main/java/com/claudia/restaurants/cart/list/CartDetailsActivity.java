@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart;
+package com.claudia.restaurants.cart.list;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,13 +20,13 @@ public class CartDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         cartId = getIntent().getStringExtra(CART_ID_ARG);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        new DownloadCartsUpdateCartTask(this, new CartServices(), cartId).execute(ServerConfig.getServletURL("get_cart_list"));
+        new DownloadCartsUpdateCartTask(this, new CartListServices(), cartId).execute(ServerConfig.getServletURL("get_cart_list"));
 
 
     }
@@ -41,22 +41,22 @@ public class CartDetailsActivity extends AppCompatActivity {
 
     class DownloadCartsUpdateCartTask extends AsyncTask<String, Void, String> {
         private CartDetailsActivity cartDetailsActivity;
-        private CartServices cartServices;
+        private CartListServices cartListServices;
         private String idCart;
 
-        public DownloadCartsUpdateCartTask(CartDetailsActivity cartDetailsActivity, CartServices cartServices, String idCart) {
+        public DownloadCartsUpdateCartTask(CartDetailsActivity cartDetailsActivity, CartListServices cartListServices, String idCart) {
             this.cartDetailsActivity = cartDetailsActivity;
-            this.cartServices = cartServices;
+            this.cartListServices = cartListServices;
             this.idCart = idCart;
         }
 
         protected String doInBackground(String... urls) {
-            new DownloadCartList(urls[0], cartServices).invoke();
+            new DownloadCartList(urls[0], cartListServices).invoke();
             return "";
         }
 
         protected void onPostExecute(String s) {
-            cartDetailsActivity.setCart(cartServices.getCartById(idCart));
+            cartDetailsActivity.setCart(cartListServices.getCartById(idCart));
 
 
         }
