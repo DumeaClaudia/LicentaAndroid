@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".cart.list.CartDetailsActivity"
+            android:name=".cart.details.CartDetailsActivity"
             android:label="@string/title_activity_cart_details"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"

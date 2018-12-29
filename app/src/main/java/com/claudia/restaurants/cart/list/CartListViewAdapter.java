@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.claudia.restaurants.MainActivity;
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.cart.details.CartDetailsActivity;
 
 public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHolder> {
 
