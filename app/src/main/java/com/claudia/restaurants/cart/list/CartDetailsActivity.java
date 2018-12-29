@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.cart.details.CartDetailsItem;
+import com.claudia.restaurants.server.DownloadCartDetails;
 import com.claudia.restaurants.server.DownloadCartList;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
@@ -26,7 +28,7 @@ public class CartDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        new DownloadCartsUpdateCartTask(this, new CartListServices(), cartId).execute(ServerConfig.getServletURL("get_cart_list"));
+        new DownloadCartsUpdateCartTask(this, cartId).execute(ServerConfig.getServletURL("get_cart_details"));
 
 
     }
@@ -41,24 +43,23 @@ public class CartDetailsActivity extends AppCompatActivity {
 
     class DownloadCartsUpdateCartTask extends AsyncTask<String, Void, String> {
         private CartDetailsActivity cartDetailsActivity;
-        private CartListServices cartListServices;
         private String idCart;
+        private CartDetailsItem cartDetailsItem;
 
-        public DownloadCartsUpdateCartTask(CartDetailsActivity cartDetailsActivity, CartListServices cartListServices, String idCart) {
+        public DownloadCartsUpdateCartTask(CartDetailsActivity cartDetailsActivity, String idCart) {
             this.cartDetailsActivity = cartDetailsActivity;
-            this.cartListServices = cartListServices;
             this.idCart = idCart;
         }
 
         protected String doInBackground(String... urls) {
-            new DownloadCartList(urls[0], cartListServices).invoke();
+            cartDetailsItem = new DownloadCartDetails(urls[0], idCart).invoke();
             return "";
         }
 
         protected void onPostExecute(String s) {
-            cartDetailsActivity.setCart(cartListServices.getCartById(idCart));
 
-
+            TextView textView = cartDetailsActivity.findViewById(R.id.restaurantName_textView);
+            textView.setText(cartDetailsItem.toString());
         }
 
     }

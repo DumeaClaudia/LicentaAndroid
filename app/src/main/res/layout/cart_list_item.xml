@@ -16,7 +16,7 @@
         android:layout_marginTop="4dp"
         android:text="Restaurant"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

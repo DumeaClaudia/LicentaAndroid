@@ -24,26 +24,6 @@ public class RestaurantProductsItem {
         products = new ArrayList<ProductDetailsItem>();
     }
 
-    @Override
-    public String toString() {
-
-
-        StringBuilder builder = new StringBuilder();
-
-        for(ProductDetailsItem p : products){
-            builder.append(p.toString());
-            builder.append(",\n");
-
-        }
-        return "RestaurantProductsItem{" +
-                "restaurantName='" + restaurantName + '\'' +
-                ", restaurantImage='" + restaurantImage + '\'' +
-                ", restaurantAddress='" + restaurantAddress + '\'' +
-                ", products= [" + builder.toString() +
-                 "]" +
-                '}';
-
-    }
 
     public String getRestaurantName() {
         return restaurantName;
@@ -75,5 +55,24 @@ public class RestaurantProductsItem {
 
     public void setProducts(List<ProductDetailsItem> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder builder = new StringBuilder();
+
+        for(ProductDetailsItem p : products){
+            builder.append(p.toString());
+            builder.append(",\n");
+
+        }
+        return "RestaurantProductsItem {" +
+                " restaurantName = " + restaurantName + '\n' +
+                " restaurantImage = " + restaurantImage + '\n' +
+                " restaurantAddress = " + restaurantAddress + '\n' +
+                " products= [" + builder.toString() +
+                "]" + '}';
+
     }
 }

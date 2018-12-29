@@ -35,11 +35,22 @@ public class CartDetailsItem {
         this.restaurantProducts = restaurantProducts;
     }
 
+
     @Override
     public String toString() {
-        return "CartDetailsItem{" +
-                "cartSummary=" + cartSummary +
-                ", restaurantProducts=" + restaurantProducts +
+
+        StringBuilder builder = new StringBuilder();
+
+        for(RestaurantProductsItem products : restaurantProducts){
+            builder.append(products.toString());
+            builder.append(",\n");
+        }
+        builder.append(",\n");
+
+        return "CartDetailsItem {" +
+                "cartSummary = " + cartSummary + '\n' +
+                "restaurantProducts = [" + builder.toString() +
+                "]" +
                 '}';
     }
 }

@@ -55,11 +55,11 @@ public class CartSummaryItem {
 
     @Override
     public String toString() {
-        return "CartSummaryItem{" +
-                "idCart='" + idCart + '\'' +
-                ", cartActive=" + cartActive +
-                ", createdDate='" + createdDate + '\'' +
-                ", cartDescription='" + cartDescription + '\'' +
+        return "CartSummaryItem {" +
+                " idCart = " + idCart + '\n' +
+                " cartActive = " + cartActive +
+                " createdDate = " + createdDate + '\n' +
+                " cartDescription = " + cartDescription + '\n' +
                 '}';
     }
 }

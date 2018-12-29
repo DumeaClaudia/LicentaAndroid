@@ -77,13 +77,13 @@ public class ProductDetailsItem {
 
     @Override
     public String toString() {
-        return "ProductDetailsItem{" +
-                "image='" + image + '\'' +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", discount=" + discount +
-                '}';
+        return "ProductDetailsItem {" +
+                " image = " + image + '\n' +
+                " name = " + name + '\n' +
+                " category = " + category + '\n' +
+                " description = " + description + '\n' +
+                " price = " + price + '\n' +
+                " discount = " + discount +
+                "} \n" ;
     }
 }
