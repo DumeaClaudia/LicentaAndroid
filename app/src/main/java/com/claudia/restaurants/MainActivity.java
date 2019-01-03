@@ -54,16 +54,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
         recyclerView = findViewById(R.id.cart_list_view);
         cartListServices = new CartListServices();
         final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this, cartListServices);
-
-
-
-
-
 
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -74,12 +67,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-
         recyclerView.setAdapter(listViewAdapter);
-
-
-
     }
 
     @Override
