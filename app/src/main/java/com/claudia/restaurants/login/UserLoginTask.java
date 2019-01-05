@@ -1,64 +1,92 @@
 package com.claudia.restaurants.login;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
-public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+import com.claudia.restaurants.MainActivity;
+import com.claudia.restaurants.R;
+import com.claudia.restaurants.cart.details.CartDetailsActivity;
+import com.claudia.restaurants.server.ServerConfig;
 
-    public final String username;
-    public final String password;
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.HttpCookie;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 
-    UserLoginTask(String username, String password) {
-        this.username = username;
-        this.password = password;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
+    LoginActivity loginActivity;
+
+    public UserLoginTask(LoginActivity loginActivity){
+        this.loginActivity = loginActivity;
     }
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
 
     @Override
-    protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
+    protected Boolean doInBackground(String... params) {
+        CookieHandler.setDefault(ServerConfig.CookieManager);
 
+        String username = params[0];
+         String password = params[1];
+
+        HttpURLConnection conn;
         try {
-            // Simulate network access.
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            return false;
-        }
+            conn = (HttpURLConnection) new URL(ServerConfig.getNotAuthenticatedServletURL("login", "username="+username+"&pwd="+ password) ).openConnection();
+            conn.setReadTimeout(60000 /* milliseconds */);
+            conn.setConnectTimeout(65000 /* milliseconds */);
+            conn.setRequestMethod("GET");
 
-        for (String credential : DUMMY_CREDENTIALS) {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(username)) {
-                // Account exists, return true if the password matches.
-                return pieces[1].equals(password);
+
+            conn.setDoInput(true);
+            conn.connect();
+
+            int response = conn.getResponseCode();
+            Log.d("CLAU_LOG", "The response is: " + response);
+
+            if(response == 401){
+                return false;
+            }else{
+                List<HttpCookie> cookies = ServerConfig.CookieManager.getCookieStore().getCookies();
+                Log.d("CLAU_LOG","Cokies" + cookies.size());
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        // TODO: register the new account here.
         return true;
     }
 
     @Override
     protected void onPostExecute(final Boolean success) {
-//        mAuthTask = null;
-//        showProgress(false);
-//
-//        if (success) {
-//            finish();
-//        } else {
-//            mPasswordView.setError(getString(R.string.error_incorrect_password));
-//            mPasswordView.requestFocus();
-//        }
+
+        loginActivity.showProgress(false);
+
+
+        if (success) {
+
+
+            Context context = loginActivity.getApplicationContext();
+
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK );
+            context.startActivity(intent);
+
+            loginActivity.finish();
+        } else {
+            loginActivity.mPasswordView.setError(loginActivity.getString(R.string.error_incorrect_password));
+            loginActivity.mPasswordView.requestFocus();
+        }
     }
 
     @Override
     protected void onCancelled() {
-//        mAuthTask = null;
-//        showProgress(false);
+        loginActivity.showProgress(false);
     }
 }
