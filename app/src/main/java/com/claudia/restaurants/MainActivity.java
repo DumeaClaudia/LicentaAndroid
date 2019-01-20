@@ -1,5 +1,8 @@
 package com.claudia.restaurants;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,11 +19,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.claudia.restaurants.cart.list.CartListViewAdapter;
 import com.claudia.restaurants.cart.list.CartListServices;
+import com.claudia.restaurants.cart.list.CartListViewAdapter;
+import com.claudia.restaurants.login.LoginActivity;
 import com.claudia.restaurants.server.DownloadCartList;
 import com.claudia.restaurants.server.ServerConfig;
+
+import java.net.CookieManager;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,7 +54,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        SharedPreferences sharedPref =this.getSharedPreferences( this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        String username = sharedPref.getString(this.getString(R.string.preference_saved_username), "");
+       // String password = sharedPref.getString(this.getString(R.string.preference_saved_password), "");
+
+         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -53,6 +68,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+
+        TextView usernameTextView = header.findViewById(R.id.username_textView);
+         usernameTextView.setText(username);
+
 
         recyclerView = findViewById(R.id.cart_list_view);
         cartListServices = new CartListServices();
@@ -109,6 +129,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_logout) {
+            ServerConfig.CookieManager = new CookieManager();
+            SharedPreferences sharedPref = this.getSharedPreferences(
+                    this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(this.getString(R.string.preference_saved_username), "");
+            editor.putString(this.getString(R.string.preference_saved_password), "");
+
+
+            editor.apply();
+
+
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);
+
+            this.finish();
+
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 

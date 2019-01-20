@@ -77,8 +77,6 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         RestaurantProductsItem restaurantItem = item.getRestaurantProducts().get(groupPosition);
         listTitleTextView.setText(restaurantItem.getRestaurantName());
 
-        TextView restaurantTextView = convertView.findViewById(R.id.restaurantName_textView);
-        restaurantTextView.setText(restaurantItem.getRestaurantName());
 
         ImageView imageViewRestaurant = convertView.findViewById(R.id.restaurant_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewRestaurant);

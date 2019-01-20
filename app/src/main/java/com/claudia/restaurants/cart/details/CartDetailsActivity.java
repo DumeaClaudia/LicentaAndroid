@@ -25,10 +25,12 @@ public  class CartDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart_details);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         cartId = getIntent().getStringExtra(CART_ID_ARG);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         new DownloadCartsUpdateCartTask(this, cartId).execute(ServerConfig.getServletURL("get_cart_details", ""));
         ExpandableListView expandableListView = findViewById(R.id.cart_expandableListView);
         cartDetailsExpandableListViewAdapter = new CartDetailsExpandableListViewAdapter(this);
