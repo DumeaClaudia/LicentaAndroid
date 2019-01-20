@@ -1,6 +1,9 @@
 package com.claudia.restaurants.cart.details;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +74,51 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.restaurant_group_item, null);
         }
+
+
+        final ImageView mapLink  = convertView.findViewById(R.id.map_link);
+        mapLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=47.1740751,27.6486701");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (mapIntent.resolveActivity( baseActivity.getApplicationContext().getPackageManager()) != null) {
+
+                    baseActivity.getApplicationContext().startActivity(mapIntent);
+                }
+                else {
+                    Snackbar.make(mapLink,  "Could not open Maps", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
+            }
+        });
+
+
+
+        final ImageView shareRestaurant  = convertView.findViewById(R.id.share_restaurant);
+        shareRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                //share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                //share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                
+
+                //share.putExtra(Intent.EXTRA_SUBJECT,  "Enter your title here");
+                share.putExtra(Intent.EXTRA_TEXT, "Enter your title here\nhttp://192.168.43.12:8080/ui/playground/shareProduct.xhtml?id=1\n");
+
+                share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               // baseActivity.getApplicationContext().startActivity(Intent.createChooser(share, "Share"));
+
+                baseActivity.getApplicationContext().startActivity(share);
+            }
+        });
+
 
         TextView listTitleTextView = convertView.findViewById(R.id.restaurantName_textView);
 
