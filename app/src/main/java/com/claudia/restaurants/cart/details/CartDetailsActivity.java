@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.cart.list.CartSummaryItem;
 import com.claudia.restaurants.server.DownloadCartDetails;
+import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 
 public  class CartDetailsActivity extends AppCompatActivity {
@@ -34,7 +35,7 @@ public  class CartDetailsActivity extends AppCompatActivity {
         cartDetailsExpandableListViewAdapter = new CartDetailsExpandableListViewAdapter(this);
         expandableListView.setAdapter(cartDetailsExpandableListViewAdapter);
 
-
+        DownloadImageTask.init_cache();
 
     }
 

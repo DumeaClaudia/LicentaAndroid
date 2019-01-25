@@ -110,7 +110,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
 
 
                 //share.putExtra(Intent.EXTRA_SUBJECT,  "Enter your title here");
-                share.putExtra(Intent.EXTRA_TEXT, "Enter your title here\nhttp://192.168.43.12:8080/ui/playground/shareProduct.xhtml?id=1\n");
+                share.putExtra(Intent.EXTRA_TEXT, "Go to restaurant details: \nhttp://192.168.43.12:8080/ui/playground/shareRestaurant.xhtml?id=1\n");
 
                 share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                // baseActivity.getApplicationContext().startActivity(Intent.createChooser(share, "Share"));
@@ -141,6 +141,22 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.product_list_item, null);
         }
+
+        final ImageView shareProduct  = convertView.findViewById(R.id.share_product);
+        shareProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, "Go to product details: \nhttp://192.168.43.12:8080/ui/playground/shareProduct.xhtml?id=1\n");
+                share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                baseActivity.getApplicationContext().startActivity(share);
+            }
+        });
+
+
         TextView listTitleTextView = convertView
                 .findViewById(R.id.product_textView);
 
