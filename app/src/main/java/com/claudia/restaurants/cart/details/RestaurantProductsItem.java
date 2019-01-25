@@ -8,14 +8,16 @@ public class RestaurantProductsItem {
     public String restaurantName;
     public String restaurantImage;
     public String restaurantAddress;
+    public String restaurantGeolocation;
 
     public List<ProductDetailsItem> products;
 
-    public RestaurantProductsItem(long restaurantId, String restaurantName, String restaurantImage, String restaurantAddress, List<ProductDetailsItem> products) {
+    public RestaurantProductsItem(long restaurantId, String restaurantName, String restaurantImage, String restaurantAddress, String restaurantGeolocation, List<ProductDetailsItem> products) {
         this.restaurantId = restaurantId;
         this.restaurantName = restaurantName;
         this.restaurantImage = restaurantImage;
         this.restaurantAddress = restaurantAddress;
+        this.restaurantGeolocation = restaurantGeolocation;
         this.products = products;
     }
 
@@ -24,6 +26,7 @@ public class RestaurantProductsItem {
         restaurantName = "";
         restaurantImage = "";
         restaurantAddress = "";
+        restaurantGeolocation = "";
         products = new ArrayList<ProductDetailsItem>();
     }
 
@@ -57,6 +60,14 @@ public class RestaurantProductsItem {
 
     public void setRestaurantAddress(String restaurantAddress) {
         this.restaurantAddress = restaurantAddress;
+    }
+
+    public String getRestaurantGeolocation() {
+        return restaurantGeolocation;
+    }
+
+    public void setRestaurantGeolocation(String restaurantGeolocation) {
+        this.restaurantGeolocation = restaurantGeolocation;
     }
 
     public List<ProductDetailsItem> getProducts() {

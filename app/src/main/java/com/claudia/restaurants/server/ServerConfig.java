@@ -24,7 +24,7 @@ public class ServerConfig {
         return getUri("/ui/android_auth/", name, query);
     }
     public static String getImageURI(String name) {
-        String default_image = SERVER_BASE_URL + "/resources/images/" + "3_1.jpg";
+        String default_image = SERVER_BASE_URL + "/resources/images/" + "grey.jpg";
         String url = getUri("/ui/resources/images/", name, "");
         if (url == null) {
             url = default_image;

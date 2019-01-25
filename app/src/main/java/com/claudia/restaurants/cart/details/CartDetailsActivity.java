@@ -30,7 +30,7 @@ public  class CartDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        new DownloadCartsUpdateCartTask(this, cartId).execute(ServerConfig.getServletURL("get_cart_details", ""));
+        new DownloadCartsUpdateCartTask(this, cartId).execute(ServerConfig.getServletURL("get_cart_details", "cartId="+cartId));
         ExpandableListView expandableListView = findViewById(R.id.cart_expandableListView);
         cartDetailsExpandableListViewAdapter = new CartDetailsExpandableListViewAdapter(this);
         expandableListView.setAdapter(cartDetailsExpandableListViewAdapter);

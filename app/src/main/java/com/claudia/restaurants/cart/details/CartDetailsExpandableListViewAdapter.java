@@ -68,19 +68,19 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.restaurant_group_item, null);
         }
-
+        final RestaurantProductsItem restaurantProductsItem = item.getRestaurantProducts().get(groupPosition);
 
         final ImageView mapLink  = convertView.findViewById(R.id.map_link);
         mapLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=47.1740751,27.6486701");
+                Uri gmmIntentUri = Uri.parse("google.navigation:q="+restaurantProductsItem.getRestaurantGeolocation());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -97,7 +97,6 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         });
 
 
-
         final ImageView shareRestaurant  = convertView.findViewById(R.id.share_restaurant);
         shareRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +106,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                 share.setType("text/plain");
                 //share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 //share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-
-
-                //share.putExtra(Intent.EXTRA_SUBJECT,  "Enter your title here");
-                share.putExtra(Intent.EXTRA_TEXT, "Go to restaurant details: \nhttp://192.168.43.12:8080/ui/playground/shareRestaurant.xhtml?id=1\n");
+                share.putExtra(Intent.EXTRA_TEXT, "Eating at : \nhttp://192.168.43.12:8080/ui/playground/shareRestaurant.xhtml?id="+restaurantProductsItem.getRestaurantId()+"\n");
 
                 share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                // baseActivity.getApplicationContext().startActivity(Intent.createChooser(share, "Share"));
@@ -122,14 +118,12 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
 
         TextView listTitleTextView = convertView.findViewById(R.id.restaurantName_textView);
 
-        RestaurantProductsItem restaurantItem = item.getRestaurantProducts().get(groupPosition);
-        listTitleTextView.setText(restaurantItem.getRestaurantName());
-
+        listTitleTextView.setText(restaurantProductsItem.getRestaurantName());
 
         ImageView imageViewRestaurant = convertView.findViewById(R.id.restaurant_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewRestaurant);
 
-        downloadImageTask.execute(ServerConfig.getImageURI( restaurantItem.getRestaurantId() + "/" + restaurantItem.getRestaurantImage()));
+        downloadImageTask.execute(ServerConfig.getImageURI( restaurantProductsItem.getRestaurantId() + "/" + restaurantProductsItem.getRestaurantImage()));
 
         return convertView;
     }
@@ -141,6 +135,8 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.product_list_item, null);
         }
+        final ProductDetailsItem product = item.getRestaurantProducts().get(groupPosition).getProducts().get(childPosition);
+
 
         final ImageView shareProduct  = convertView.findViewById(R.id.share_product);
         shareProduct.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +145,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
 
                 Intent share = new Intent(android.content.Intent.ACTION_SEND);
                 share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, "Go to product details: \nhttp://192.168.43.12:8080/ui/playground/shareProduct.xhtml?id=1\n");
+                share.putExtra(Intent.EXTRA_TEXT, "Eating... : \nhttp://192.168.43.12:8080/ui/playground/shareProduct.xhtml?id="+product.getIdProduct()+"\n");
                 share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 baseActivity.getApplicationContext().startActivity(share);
@@ -160,7 +156,6 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         TextView listTitleTextView = convertView
                 .findViewById(R.id.product_textView);
 
-        ProductDetailsItem product = item.getRestaurantProducts().get(groupPosition).getProducts().get(childPosition);
         String restaurantId = item.getRestaurantProducts().get(groupPosition).getRestaurantId()+"";
 
         listTitleTextView.setText(product.getName());
@@ -168,8 +163,11 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         ImageView imageViewProduct = convertView.findViewById(R.id.product_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewProduct);
 
-        if (!product.getImage().isEmpty()) {
+        if (!product.getImage().equals("null") && !product.getImage().isEmpty()) {
             downloadImageTask.execute(ServerConfig.getImageURI(restaurantId + '/' + product.getImage()));
+        } else
+        {
+            downloadImageTask.execute(ServerConfig.getImageURI("grey.jpg"));
         }
 
 

@@ -71,6 +71,7 @@ public class DownloadCartDetails {
                 String restaurantName = item.getString("restaurantName");
                 String restaurantImage = item.getString("restaurantImage");
                 String restaurantAddress = item.getString("restaurantAddress");
+                String restaurantGeolocation = item.getString("restaurantGeolocation");
 
                 JSONArray productsDetailsItemsObj = item.getJSONArray("products");
                 List<ProductDetailsItem> productDetailsItems = new ArrayList<ProductDetailsItem>();
@@ -92,7 +93,7 @@ public class DownloadCartDetails {
                     productDetailsItems.add(product);
                 }
 
-                RestaurantProductsItem restaurantProductsItem = new RestaurantProductsItem(restaurantId, restaurantName, restaurantImage, restaurantAddress, productDetailsItems);
+                RestaurantProductsItem restaurantProductsItem = new RestaurantProductsItem(restaurantId, restaurantName, restaurantImage, restaurantAddress,restaurantGeolocation, productDetailsItems);
                 restaurantProductsItemList.add(restaurantProductsItem);
             }
 
