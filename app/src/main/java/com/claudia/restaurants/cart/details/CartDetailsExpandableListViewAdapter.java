@@ -107,7 +107,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                 share.setType("text/plain");
                 //share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 //share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-                
+
 
                 //share.putExtra(Intent.EXTRA_SUBJECT,  "Enter your title here");
                 share.putExtra(Intent.EXTRA_TEXT, "Enter your title here\nhttp://192.168.43.12:8080/ui/playground/shareProduct.xhtml?id=1\n");
@@ -129,7 +129,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         ImageView imageViewRestaurant = convertView.findViewById(R.id.restaurant_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewRestaurant);
 
-        downloadImageTask.execute(ServerConfig.getImageURI(restaurantItem.getRestaurantName() + '/' + restaurantItem.getRestaurantImage()));
+        downloadImageTask.execute(ServerConfig.getImageURI( restaurantItem.getRestaurantId() + "/" + restaurantItem.getRestaurantImage()));
 
         return convertView;
     }
@@ -145,7 +145,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                 .findViewById(R.id.product_textView);
 
         ProductDetailsItem product = item.getRestaurantProducts().get(groupPosition).getProducts().get(childPosition);
-        String restaurantName = item.getRestaurantProducts().get(groupPosition).getRestaurantName();
+        String restaurantId = item.getRestaurantProducts().get(groupPosition).getRestaurantId()+"";
 
         listTitleTextView.setText(product.getName());
 
@@ -153,7 +153,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewProduct);
 
         if (!product.getImage().isEmpty()) {
-            downloadImageTask.execute(ServerConfig.getImageURI(restaurantName + '/' + product.getImage()));
+            downloadImageTask.execute(ServerConfig.getImageURI(restaurantId + '/' + product.getImage()));
         }
 
 

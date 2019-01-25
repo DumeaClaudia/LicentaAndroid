@@ -5,7 +5,6 @@ import android.util.Log;
 import com.claudia.restaurants.cart.details.CartDetailsItem;
 import com.claudia.restaurants.cart.details.ProductDetailsItem;
 import com.claudia.restaurants.cart.details.RestaurantProductsItem;
-import com.claudia.restaurants.cart.list.CartListServices;
 import com.claudia.restaurants.cart.list.CartSummaryItem;
 
 import org.json.JSONArray;
@@ -43,11 +42,10 @@ public class DownloadCartDetails {
 
             int response = conn.getResponseCode();
             Log.d("CLAU_LOG", "The response is: " + response);
-            BufferedReader bufferedInputStream = new BufferedReader( new InputStreamReader(conn.getInputStream()));
+            BufferedReader bufferedInputStream = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String line = bufferedInputStream.readLine();
-            while(line  != null )
-            {
+            while (line != null) {
                 json = json + line;
                 line = bufferedInputStream.readLine();
             }
@@ -69,6 +67,7 @@ public class DownloadCartDetails {
             for (int i = 0; i < productsArrayObj.length(); i++) {
                 JSONObject item = productsArrayObj.getJSONObject(i);
 
+                long restaurantId = item.getLong("restaurantId");
                 String restaurantName = item.getString("restaurantName");
                 String restaurantImage = item.getString("restaurantImage");
                 String restaurantAddress = item.getString("restaurantAddress");
@@ -76,9 +75,11 @@ public class DownloadCartDetails {
                 JSONArray productsDetailsItemsObj = item.getJSONArray("products");
                 List<ProductDetailsItem> productDetailsItems = new ArrayList<ProductDetailsItem>();
 
-                for(int index=0; index<productsDetailsItemsObj.length(); index++){
+                for (int index = 0; index < productsDetailsItemsObj.length(); index++) {
                     JSONObject productItem = productsDetailsItemsObj.getJSONObject(index);
 
+                    long idProduct = productItem.getLong("idProduct");
+                    long idRestaurant = productItem.getLong("idRestaurant");
                     String image = productItem.getString("image");
                     String name = productItem.getString("name");
                     String category = productItem.getString("category");
@@ -86,15 +87,16 @@ public class DownloadCartDetails {
                     double price = productItem.getDouble("price");
                     int discount = productItem.getInt("discount");
 
-                    ProductDetailsItem product = new ProductDetailsItem(image, name, category, description, price, discount);
+
+                    ProductDetailsItem product = new ProductDetailsItem(idProduct, idRestaurant, image, name, category, description, price, discount);
                     productDetailsItems.add(product);
                 }
 
-                RestaurantProductsItem restaurantProductsItem = new RestaurantProductsItem(restaurantName, restaurantImage, restaurantAddress, productDetailsItems);
+                RestaurantProductsItem restaurantProductsItem = new RestaurantProductsItem(restaurantId, restaurantName, restaurantImage, restaurantAddress, productDetailsItems);
                 restaurantProductsItemList.add(restaurantProductsItem);
             }
 
-            cartDetailsItem = new CartDetailsItem(cartSummaryItem, restaurantProductsItemList );
+            cartDetailsItem = new CartDetailsItem(cartSummaryItem, restaurantProductsItemList);
 
         } catch (IOException e) {
             e.printStackTrace();

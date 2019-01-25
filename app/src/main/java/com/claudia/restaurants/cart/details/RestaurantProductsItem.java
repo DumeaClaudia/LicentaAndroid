@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantProductsItem {
+    public long restaurantId;
     public String restaurantName;
     public String restaurantImage;
     public String restaurantAddress;
 
     public List<ProductDetailsItem> products;
 
-    public RestaurantProductsItem(String restaurantName, String restaurantImage, String restaurantAddress, List<ProductDetailsItem> products) {
+    public RestaurantProductsItem(long restaurantId, String restaurantName, String restaurantImage, String restaurantAddress, List<ProductDetailsItem> products) {
+        this.restaurantId = restaurantId;
         this.restaurantName = restaurantName;
         this.restaurantImage = restaurantImage;
         this.restaurantAddress = restaurantAddress;
@@ -18,12 +20,20 @@ public class RestaurantProductsItem {
     }
 
     public RestaurantProductsItem() {
+        restaurantId = 0;
         restaurantName = "";
         restaurantImage = "";
         restaurantAddress = "";
         products = new ArrayList<ProductDetailsItem>();
     }
 
+    public long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(long restaurantId) {
+        this.restaurantId = restaurantId;
+    }
 
     public String getRestaurantName() {
         return restaurantName;
@@ -68,6 +78,7 @@ public class RestaurantProductsItem {
 
         }
         return "RestaurantProductsItem {" +
+                " restaurantId = " + restaurantId + '\n' +
                 " restaurantName = " + restaurantName + '\n' +
                 " restaurantImage = " + restaurantImage + '\n' +
                 " restaurantAddress = " + restaurantAddress + '\n' +
