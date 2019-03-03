@@ -110,19 +110,16 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
 
                 share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                // baseActivity.getApplicationContext().startActivity(Intent.createChooser(share, "Share"));
-
                 baseActivity.getApplicationContext().startActivity(share);
             }
         });
 
 
         TextView listTitleTextView = convertView.findViewById(R.id.restaurantName_textView);
-
         listTitleTextView.setText(restaurantProductsItem.getRestaurantName());
 
         ImageView imageViewRestaurant = convertView.findViewById(R.id.restaurant_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewRestaurant);
-
         downloadImageTask.execute(ServerConfig.getImageURI( restaurantProductsItem.getRestaurantId() + "/" + restaurantProductsItem.getRestaurantImage()));
 
         return convertView;
@@ -136,7 +133,6 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
             convertView = layoutInflater.inflate(R.layout.product_list_item, null);
         }
         final ProductDetailsItem product = item.getRestaurantProducts().get(groupPosition).getProducts().get(childPosition);
-
 
         final ImageView shareProduct  = convertView.findViewById(R.id.share_product);
         shareProduct.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +152,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         TextView listTitleTextView = convertView
                 .findViewById(R.id.product_textView);
 
-        String restaurantId = item.getRestaurantProducts().get(groupPosition).getRestaurantId()+"";
+        String restaurantId = product.getIdRestaurant()+"";
 
         listTitleTextView.setText(product.getName());
 
@@ -165,12 +161,9 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
 
         if (!product.getImage().equals("null") && !product.getImage().isEmpty()) {
             downloadImageTask.execute(ServerConfig.getImageURI(restaurantId + '/' + product.getImage()));
-        } else
-        {
+        } else {
             downloadImageTask.execute(ServerConfig.getImageURI("grey.jpg"));
         }
-
-
         return convertView;
     }
 

@@ -1,17 +1,17 @@
 <resources>
-    <string name="app_name">Restaurants</string>
+    <string name="app_name">Restaurante</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Restaurants</string>
+    <string name="nav_header_title">Restaurante online</string>
     <string name="userLogged">User: %1$s</string>
     <string name="nav_header_subtitle">restaurants@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_cart_details">CartDetails</string>
-    <string name="prompt_username">Username</string>
-    <string name="prompt_password">Password</string>
+    <string name="title_activity_cart_details">Comenzi</string>
+    <string name="prompt_username">Nume utilizator</string>
+    <string name="prompt_password">Parola</string>
     <string name="action_sign_in_short">Sign in or register</string>
-    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in">Login</string>
 
     <!-- Strings related to login -->
     <string name="error_invalid_username">This username is invalid</string>

@@ -23,7 +23,6 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
     LoginActivity loginActivity;
     String username;  String password;
 
-
     public UserLoginTask(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
     }
@@ -32,9 +31,7 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... params) {
         CookieHandler.setDefault(ServerConfig.CookieManager);
 
-
         username = params[0];
-
         password = params[1];
 
         // String text = String.format(getResources().getString(R.string.userLogged), username);

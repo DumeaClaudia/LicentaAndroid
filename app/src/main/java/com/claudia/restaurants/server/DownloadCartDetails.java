@@ -51,7 +51,6 @@ public class DownloadCartDetails {
             }
 
             JSONObject cartDetailsObj = new JSONObject(json);
-
             JSONObject cartSummaryObj = cartDetailsObj.getJSONObject("cartSummary");
 
             String idCart = cartSummaryObj.getString("idCart");

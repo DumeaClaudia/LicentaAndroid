@@ -2,7 +2,6 @@ package com.claudia.restaurants.cart.details;
 
 public class ProductDetailsItem {
 
-
     public long idProduct;
     public long idRestaurant;
     public String image;
