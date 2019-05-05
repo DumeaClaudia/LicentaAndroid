@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import com.claudia.restaurants.MainActivity;
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.cart.details.CartDetailsActivity;
+import com.claudia.restaurants.server.DownloadImageTask;
+import com.claudia.restaurants.server.ServerConfig;
 
 public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHolder> {
 
@@ -36,6 +38,12 @@ public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHold
 
         holder.restaurantTextView.setText(item.cartDescription);
         holder.createdDateTextView.setText(item.createdDate);
+        holder.nrProductsTextView.setText(item.nrProducts);
+
+        DownloadImageTask downloadImageTask = new DownloadImageTask(  holder.imageRestaurantTextView);
+
+        downloadImageTask.execute(ServerConfig.getImageURI(item.imageRestaurant));
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

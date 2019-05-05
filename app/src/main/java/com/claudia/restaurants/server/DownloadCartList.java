@@ -60,8 +60,11 @@ public class DownloadCartList {
                 boolean cartActive = item.getBoolean("cartActive");
                 String date = item.getString("createdDate");
                 String cartDescription = item.getString("cartDescription");
+                String nrProducts = item.getString("nrProducts");
+                String imageRestaurant = item.getString("imageRestaurant");
+                double totalPrice = item.getDouble("totalPrice");
 
-                CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription);
+                CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription, nrProducts, imageRestaurant,totalPrice);
                 cartListServices.addCart(cartSummaryItem);
             }
 

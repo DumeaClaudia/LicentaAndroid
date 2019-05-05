@@ -24,6 +24,7 @@ import com.claudia.restaurants.cart.list.CartListServices;
 import com.claudia.restaurants.cart.list.CartListViewAdapter;
 import com.claudia.restaurants.login.LoginActivity;
 import com.claudia.restaurants.server.DownloadCartList;
+import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 
 import java.net.CookieManager;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.cart_list_view);
         cartListServices = new CartListServices();
         final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this, cartListServices);
-
+        DownloadImageTask.init_cache();
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         recyclerView.setAdapter(listViewAdapter);
+
+
     }
 
     @Override
@@ -172,6 +175,8 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+
         return true;
     }
 

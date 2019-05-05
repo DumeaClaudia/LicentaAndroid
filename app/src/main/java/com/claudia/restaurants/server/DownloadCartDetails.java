@@ -57,8 +57,11 @@ public class DownloadCartDetails {
             boolean cartActive = cartSummaryObj.getBoolean("cartActive");
             String date = cartSummaryObj.getString("createdDate");
             String cartDescription = cartSummaryObj.getString("cartDescription");
+            String nrProducts = cartSummaryObj.getString("nrProducts");
+            String imageRestaurant = cartSummaryObj.getString("imageRestaurant");
+            double totalPrice = cartSummaryObj.getDouble("totalPrice");
 
-            CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription);
+            CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription, nrProducts, imageRestaurant, totalPrice);
 
             JSONArray productsArrayObj = cartDetailsObj.getJSONArray("restaurantProducts");
             List<RestaurantProductsItem> restaurantProductsItemList = new ArrayList<RestaurantProductsItem>();
