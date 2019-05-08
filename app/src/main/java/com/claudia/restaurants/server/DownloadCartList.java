@@ -18,12 +18,13 @@ import java.net.URL;
 public class DownloadCartList {
     private String url;
     private CartListServices cartListServices;
+    private boolean activeCarts;
 
-
-    public DownloadCartList(String url, CartListServices cartListServices) {
+    public DownloadCartList(String url, CartListServices cartListServices, boolean activeCarts) {
 
         this.url = url;
         this.cartListServices = cartListServices;
+        this.activeCarts = activeCarts;
     }
 
     public void invoke() {
@@ -56,16 +57,20 @@ public class DownloadCartList {
             cartListServices.removeElements();
             for (int i = 0; i < array.length(); i++) {
                 JSONObject item = array.getJSONObject(i);
-                String idCart = item.getString("idCart");
-                boolean cartActive = item.getBoolean("cartActive");
-                String date = item.getString("createdDate");
-                String cartDescription = item.getString("cartDescription");
-                String nrProducts = item.getString("nrProducts");
-                String imageRestaurant = item.getString("imageRestaurant");
-                double totalPrice = item.getDouble("totalPrice");
 
-                CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription, nrProducts, imageRestaurant,totalPrice);
-                cartListServices.addCart(cartSummaryItem);
+                boolean cartActive = item.getBoolean("cartActive");
+                if (cartActive == this.activeCarts) {
+                    String idCart = item.getString("idCart");
+
+                    String date = item.getString("createdDate");
+                    String cartDescription = item.getString("cartDescription");
+                    String nrProducts = item.getString("nrProducts");
+                    String imageRestaurant = item.getString("imageRestaurant");
+                    double totalPrice = item.getDouble("totalPrice");
+
+                    CartSummaryItem cartSummaryItem = new CartSummaryItem(idCart, cartActive, date, cartDescription, nrProducts, imageRestaurant, totalPrice);
+                    cartListServices.addCart(cartSummaryItem);
+                }
             }
 
         } catch (IOException e) {

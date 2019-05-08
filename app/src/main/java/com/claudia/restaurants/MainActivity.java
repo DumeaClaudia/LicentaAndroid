@@ -34,8 +34,10 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView recyclerView;
+    RecyclerView recyclerView2;
 
     CartListServices cartListServices;
+    CartListServices cartListServices2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,19 +77,36 @@ public class MainActivity extends AppCompatActivity
 
 
         recyclerView = findViewById(R.id.cart_list_view);
+
+
+
+
         cartListServices = new CartListServices();
+        cartListServices2 = new CartListServices();
+
         final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this, cartListServices);
+        final CartListViewAdapter listViewAdapter2 = new CartListViewAdapter(this, cartListServices2);
+
         DownloadImageTask.init_cache();
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new DownloadCartsUpdateListTask(listViewAdapter, cartListServices).execute(ServerConfig.getServletURL("get_cart_list", ""), "", "");
+                new DownloadCartsUpdateListTask(listViewAdapter, cartListServices, true).execute(ServerConfig.getServletURL("get_cart_list", ""), "", "");
+                new DownloadCartsUpdateListTask(listViewAdapter2, cartListServices2, false).execute(ServerConfig.getServletURL("get_cart_list", ""), "", "");
                 handler.postDelayed(this, 10000);
             }
         });
 
         recyclerView.setAdapter(listViewAdapter);
+
+
+        recyclerView2 = findViewById(R.id.cart_list_view2);
+
+        recyclerView2.setAdapter(listViewAdapter2);
+
+
+
 
 
     }
@@ -183,14 +202,16 @@ public class MainActivity extends AppCompatActivity
      class DownloadCartsUpdateListTask extends AsyncTask<String, Void, String> {
         private CartListViewAdapter cartViewAdapter;
         private CartListServices cartListServices;
+        private boolean activeCarts;
 
-        public DownloadCartsUpdateListTask(CartListViewAdapter cartViewAdapter, CartListServices cartListServices){
+        public DownloadCartsUpdateListTask(CartListViewAdapter cartViewAdapter, CartListServices cartListServices, boolean activeCarts){
             this.cartViewAdapter = cartViewAdapter;
             this.cartListServices = cartListServices;
+            this.activeCarts = activeCarts;
         }
 
         protected String doInBackground(String... urls) {
-            new DownloadCartList(urls[0], cartListServices).invoke();
+            new DownloadCartList(urls[0], cartListServices, activeCarts).invoke();
             return "";
         }
 
