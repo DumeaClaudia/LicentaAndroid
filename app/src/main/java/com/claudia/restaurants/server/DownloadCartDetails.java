@@ -22,7 +22,7 @@ import java.util.List;
 public class DownloadCartDetails {
     private String url;
 
-    public DownloadCartDetails(String url, String idCart) {
+    public DownloadCartDetails(String url) {
         this.url = url;
     }
 

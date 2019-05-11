@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,11 @@ import com.claudia.restaurants.server.ServerConfig;
 
 public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdapter {
 
-    CartDetailsActivity baseActivity;
+    AppCompatActivity baseActivity;
     Context context;
     CartDetailsItem item;
 
-    public CartDetailsExpandableListViewAdapter(CartDetailsActivity baseActivity) {
+    public CartDetailsExpandableListViewAdapter(AppCompatActivity baseActivity) {
         this.baseActivity = baseActivity;
         this.context = baseActivity.getApplicationContext();
         this.item = new CartDetailsItem();

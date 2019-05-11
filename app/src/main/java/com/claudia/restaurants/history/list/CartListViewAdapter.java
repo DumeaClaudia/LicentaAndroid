@@ -7,19 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.claudia.restaurants.MainActivity;
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.history.HistoryActivity;
 import com.claudia.restaurants.history.details.CartDetailsActivity;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 
 public class CartListViewAdapter   extends RecyclerView.Adapter<CartItemViewHolder> {
 
-    private final MainActivity mParentActivity;
+    private final HistoryActivity mParentActivity;
     private final CartListServices cartListServices;
 
     public CartListViewAdapter(
-            MainActivity parent, CartListServices services) {
+            HistoryActivity parent, CartListServices services) {
         mParentActivity = parent;
         cartListServices = services;
     }

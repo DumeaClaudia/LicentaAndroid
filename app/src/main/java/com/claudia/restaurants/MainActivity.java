@@ -13,17 +13,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import com.claudia.restaurants.history.list.CartListServices;
-import com.claudia.restaurants.history.list.CartListViewAdapter;
+import com.claudia.restaurants.history.HistoryActivity;
+import com.claudia.restaurants.history.details.CartDetailsExpandableListViewAdapter;
+import com.claudia.restaurants.history.details.CartDetailsItem;
 import com.claudia.restaurants.login.LoginActivity;
-import com.claudia.restaurants.server.DownloadCartList;
+import com.claudia.restaurants.server.DownloadCartDetails;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 
@@ -33,11 +34,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    RecyclerView recyclerView;
-    RecyclerView recyclerView2;
+    public CartDetailsExpandableListViewAdapter cartDetailsExpandableListViewAdapter;
 
-    CartListServices cartListServices;
-    CartListServices cartListServices2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +54,15 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
 
+
+
         SharedPreferences sharedPref =this.getSharedPreferences( this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
 
         String username = sharedPref.getString(this.getString(R.string.preference_saved_username), "");
-       // String password = sharedPref.getString(this.getString(R.string.preference_saved_password), "");
+        // String password = sharedPref.getString(this.getString(R.string.preference_saved_password), "");
 
-         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -73,39 +73,23 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         TextView usernameTextView = header.findViewById(R.id.username_textView);
-         usernameTextView.setText(username);
+        usernameTextView.setText(username);
 
+        ExpandableListView expandableListView = findViewById(R.id.cart_expandableListView);
+        cartDetailsExpandableListViewAdapter = new CartDetailsExpandableListViewAdapter(this);
+        expandableListView.setAdapter(cartDetailsExpandableListViewAdapter);
 
-        recyclerView = findViewById(R.id.cart_list_view);
-
-
-
-
-        cartListServices = new CartListServices();
-        cartListServices2 = new CartListServices();
-
-        final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this, cartListServices);
-        final CartListViewAdapter listViewAdapter2 = new CartListViewAdapter(this, cartListServices2);
-
-        DownloadImageTask.init_cache();
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new DownloadCartsUpdateListTask(listViewAdapter, cartListServices, true).execute(ServerConfig.getServletURL("get_cart_list", ""), "", "");
-                new DownloadCartsUpdateListTask(listViewAdapter2, cartListServices2, false).execute(ServerConfig.getServletURL("get_cart_list", ""), "", "");
+                new MainActivity.DownloadCartsUpdateCartTask(MainActivity.this).execute(ServerConfig.getServletURL("get_current_cart",""));
+
+
                 handler.postDelayed(this, 10000);
             }
         });
-
-        recyclerView.setAdapter(listViewAdapter);
-
-
-        recyclerView2 = findViewById(R.id.cart_list_view2);
-
-        recyclerView2.setAdapter(listViewAdapter2);
-
-
+         DownloadImageTask.init_cache();
 
 
 
@@ -136,7 +120,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_history_carts) {
+            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);
             return true;
         }
 
@@ -172,6 +159,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_cart) {
         } else if (id == R.id.nav_history) {
 
+            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);
 
 
         }  else if (id == R.id.nav_share) {
@@ -200,30 +190,25 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-     class DownloadCartsUpdateListTask extends AsyncTask<String, Void, String> {
-        private CartListViewAdapter cartViewAdapter;
-        private CartListServices cartListServices;
-        private boolean activeCarts;
+    class DownloadCartsUpdateCartTask extends AsyncTask<String, Void, String> {
+        private AppCompatActivity cartDetailsActivity;
+        private CartDetailsItem cartDetailsItem;
 
-        public DownloadCartsUpdateListTask(CartListViewAdapter cartViewAdapter, CartListServices cartListServices, boolean activeCarts){
-            this.cartViewAdapter = cartViewAdapter;
-            this.cartListServices = cartListServices;
-            this.activeCarts = activeCarts;
+        public DownloadCartsUpdateCartTask(AppCompatActivity cartDetailsActivity) {
+            this.cartDetailsActivity = cartDetailsActivity;
+
         }
 
         protected String doInBackground(String... urls) {
-            new DownloadCartList(urls[0], cartListServices, activeCarts).invoke();
+            cartDetailsItem = new DownloadCartDetails(urls[0]).invoke();
             return "";
         }
 
         protected void onPostExecute(String s) {
-            cartViewAdapter.notifyDataSetChanged();
-
-
+            cartDetailsExpandableListViewAdapter.setItem(cartDetailsItem);
         }
 
     }
-
 
 
 }

@@ -58,7 +58,7 @@ public  class CartDetailsActivity extends AppCompatActivity {
         }
 
         protected String doInBackground(String... urls) {
-            cartDetailsItem = new DownloadCartDetails(urls[0], idCart).invoke();
+            cartDetailsItem = new DownloadCartDetails(urls[0]).invoke();
             return "";
         }
 
