@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart.list;
+package com.claudia.restaurants.history.list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.claudia.restaurants.MainActivity;
 import com.claudia.restaurants.R;
-import com.claudia.restaurants.cart.details.CartDetailsActivity;
+import com.claudia.restaurants.history.details.CartDetailsActivity;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 

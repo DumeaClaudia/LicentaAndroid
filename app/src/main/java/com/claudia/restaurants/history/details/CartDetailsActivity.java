@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart.details;
+package com.claudia.restaurants.history.details;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.claudia.restaurants.R;
-import com.claudia.restaurants.cart.list.CartSummaryItem;
+import com.claudia.restaurants.history.list.CartSummaryItem;
 import com.claudia.restaurants.server.DownloadCartDetails;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;

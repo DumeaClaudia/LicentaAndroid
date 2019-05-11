@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".cart.details.CartDetailsActivity"
+            android:name=".history.details.CartDetailsActivity"
             android:label="@string/title_activity_cart_details"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity">

@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart.list;
+package com.claudia.restaurants.history.list;
 
 import java.util.ArrayList;
 import java.util.List;

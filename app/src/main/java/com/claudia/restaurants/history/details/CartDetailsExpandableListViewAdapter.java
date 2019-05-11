@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart.details;
+package com.claudia.restaurants.history.details;
 
 import android.content.Context;
 import android.content.Intent;

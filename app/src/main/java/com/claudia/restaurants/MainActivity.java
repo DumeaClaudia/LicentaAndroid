@@ -20,8 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.claudia.restaurants.cart.list.CartListServices;
-import com.claudia.restaurants.cart.list.CartListViewAdapter;
+import com.claudia.restaurants.history.list.CartListServices;
+import com.claudia.restaurants.history.list.CartListViewAdapter;
 import com.claudia.restaurants.login.LoginActivity;
 import com.claudia.restaurants.server.DownloadCartList;
 import com.claudia.restaurants.server.DownloadImageTask;
@@ -169,7 +169,8 @@ public class MainActivity extends AppCompatActivity
             this.finish();
 
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_cart) {
+        } else if (id == R.id.nav_history) {
 
 
 

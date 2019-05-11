@@ -2,8 +2,8 @@ package com.claudia.restaurants.server;
 
 import android.util.Log;
 
-import com.claudia.restaurants.cart.list.CartSummaryItem;
-import com.claudia.restaurants.cart.list.CartListServices;
+import com.claudia.restaurants.history.list.CartSummaryItem;
+import com.claudia.restaurants.history.list.CartListServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;

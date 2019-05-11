@@ -1,4 +1,4 @@
-package com.claudia.restaurants.cart.details;
+package com.claudia.restaurants.history.details;
 
 public class ProductDetailsItem {
 

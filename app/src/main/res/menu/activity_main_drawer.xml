@@ -13,13 +13,17 @@
     <item android:title="Communicate">
         <menu>
             <item
+                android:id="@+id/nav_cart"
+                android:icon="@drawable/ic_local_dining_black_24dp"
+                android:title="Comanda curenta" />
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_history_black_24dp"
+                android:title="Istoric" />
+            <item
                 android:id="@+id/nav_send"
                 android:icon="@android:drawable/ic_menu_mapmode"
                 android:title="Maps" />
-            <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="Restaurante" />
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
