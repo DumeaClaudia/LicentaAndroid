@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.claudia.restaurants.comment.CommentActivity;
 import com.claudia.restaurants.history.HistoryActivity;
 import com.claudia.restaurants.history.details.CartDetailsExpandableListViewAdapter;
 import com.claudia.restaurants.history.details.CartDetailsItem;
@@ -43,16 +45,20 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
- /*       FloatingActionButton fab = findViewById(R.id.fab);
+       FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+             /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                getApplicationContext().startActivity(intent);
+
 
 
             }
-        });*/
+        });
 
 
 
@@ -84,8 +90,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 new MainActivity.DownloadCartsUpdateCartTask(MainActivity.this).execute(ServerConfig.getServletURL("get_current_cart",""));
-
-
                 handler.postDelayed(this, 10000);
             }
         });

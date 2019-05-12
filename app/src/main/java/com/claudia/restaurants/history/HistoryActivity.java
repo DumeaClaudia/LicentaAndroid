@@ -27,21 +27,21 @@ public class HistoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
         recyclerView = findViewById(R.id.cart_list_view);
-
-
 
         cartListServices = new CartListServices();
         cartListServices2 = new CartListServices();
 
         final CartListViewAdapter listViewAdapter = new CartListViewAdapter(this, cartListServices);
         final CartListViewAdapter listViewAdapter2 = new CartListViewAdapter(this, cartListServices2);
+
+        recyclerView.setAdapter(listViewAdapter);
+
+        recyclerView2 = findViewById(R.id.cart_list_view2);
+
+        recyclerView2.setAdapter(listViewAdapter2);
 
         DownloadImageTask.init_cache();
         final Handler handler = new Handler();
@@ -53,14 +53,6 @@ public class HistoryActivity extends AppCompatActivity {
                 handler.postDelayed(this, 10000);
             }
         });
-
-        recyclerView.setAdapter(listViewAdapter);
-
-
-        recyclerView2 = findViewById(R.id.cart_list_view2);
-
-        recyclerView2.setAdapter(listViewAdapter2);
-
 
 
     }

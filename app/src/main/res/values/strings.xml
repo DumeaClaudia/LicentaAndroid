@@ -24,4 +24,5 @@
     <string name="preference_saved_password">com.claudia.restaurants.SAVED_PASSWORD</string>
     <string name="title_activity_history">Istoric comenzi</string>
     <string name="action_history_carts">History</string>
+    <string name="title_activity_comment">CommentActivity</string>
 </resources>
