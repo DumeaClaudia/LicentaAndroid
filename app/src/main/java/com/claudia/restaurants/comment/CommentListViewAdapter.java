@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Space;
 
 import com.claudia.restaurants.R;
 
@@ -33,6 +34,14 @@ public class CommentListViewAdapter extends RecyclerView.Adapter<CommentItemView
         holder.usernameTextView.setText(item.username);
         holder.sendDateTextView.setText(item.sendDate);
         holder.descriptionTextView.setText(item.description);
+        if(item.ownComment) {
+            holder.left_space.setVisibility(Space.VISIBLE);
+            holder.right_space.setVisibility(Space.GONE);
+        }else{
+            holder.left_space.setVisibility(Space.GONE);
+            holder.right_space.setVisibility(Space.VISIBLE);
+        }
+
 
     }
 

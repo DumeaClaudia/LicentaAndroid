@@ -89,9 +89,10 @@ public class DownloadCartDetails {
                     String description = productItem.getString("description");
                     double price = productItem.getDouble("price");
                     int discount = productItem.getInt("discount");
+                    int nrOfProducts = productItem.getInt("nrProducts");
 
 
-                    ProductDetailsItem product = new ProductDetailsItem(idProduct, idRestaurant, image, name, category, description, price, discount);
+                    ProductDetailsItem product = new ProductDetailsItem(idProduct, idRestaurant, image, nrOfProducts + "x "+ name, category,  description, nrOfProducts+"x "+String.format("%.2f", price), discount);
                     productDetailsItems.add(product);
                 }
 

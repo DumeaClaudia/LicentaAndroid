@@ -8,10 +8,10 @@ public class ProductDetailsItem {
     public String name;
     public String category;
     public String description;
-    public double price;
+    public String price;
     public int discount;
 
-    public ProductDetailsItem(long idProduct, long idRestaurant, String image, String name, String category, String description, double price, int discount) {
+    public ProductDetailsItem(long idProduct, long idRestaurant, String image, String name, String category, String description, String price, int discount) {
         this.idProduct = idProduct;
         this.idRestaurant = idRestaurant;
         this.image = image;
@@ -29,7 +29,7 @@ public class ProductDetailsItem {
         name = "";
         category = "";
         description = "";
-        price = 0;
+        price = "";
         discount = 0;
     }
 
@@ -81,11 +81,11 @@ public class ProductDetailsItem {
         this.description = description;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

@@ -164,7 +164,7 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
 
         TextView priceTextView = convertView
                 .findViewById(R.id.price_textView);
-        priceTextView.setText(String.format("%.2f", product.getPrice()) + " RON");
+        priceTextView.setText( product.getPrice() + " RON");
 
         ImageView imageViewProduct = convertView.findViewById(R.id.product_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewProduct);
