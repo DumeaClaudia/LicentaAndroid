@@ -26,6 +26,7 @@ import com.claudia.restaurants.history.HistoryActivity;
 import com.claudia.restaurants.history.details.CartDetailsExpandableListViewAdapter;
 import com.claudia.restaurants.history.details.CartDetailsItem;
 import com.claudia.restaurants.login.LoginActivity;
+import com.claudia.restaurants.restaurants.list.RestaurantsActivity;
 import com.claudia.restaurants.server.DownloadCartDetails;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,13 +57,11 @@ public class MainActivity extends AppCompatActivity
                 getApplicationContext().startActivity(intent);
 
 
-
             }
         });
 
 
-
-        SharedPreferences sharedPref =this.getSharedPreferences( this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
 
         String username = sharedPref.getString(this.getString(R.string.preference_saved_username), "");
@@ -89,12 +88,11 @@ public class MainActivity extends AppCompatActivity
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new MainActivity.DownloadCartsUpdateCartTask(MainActivity.this).execute(ServerConfig.getServletURL("get_current_cart",""));
+                new MainActivity.DownloadCartsUpdateCartTask(MainActivity.this).execute(ServerConfig.getServletURL("get_current_cart", ""));
                 handler.postDelayed(this, 10000);
             }
         });
-         DownloadImageTask.init_cache();
-
+        DownloadImageTask.init_cache();
 
 
     }
@@ -159,16 +157,18 @@ public class MainActivity extends AppCompatActivity
 
             this.finish();
 
-            // Handle the camera action
         } else if (id == R.id.nav_cart) {
-        } else if (id == R.id.nav_history) {
+        } else if (id == R.id.nav_restaurants) {
+            Intent intent = new Intent(getApplicationContext(), RestaurantsActivity.class);
+            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);
 
+        } else if (id == R.id.nav_history) {
             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
 
-
-        }  else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
             Intent share = new Intent(android.content.Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, "Instaleaza aplicatia...");
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (mapIntent.resolveActivity( getApplicationContext().getPackageManager()) != null) {
+            if (mapIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
 
                 getApplicationContext().startActivity(mapIntent);
             }

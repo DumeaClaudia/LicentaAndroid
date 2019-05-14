@@ -6,20 +6,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Logout" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:id="@+id/Optiuni">
         <menu>
             <item
-                android:id="@+id/nav_cart"
+                android:id="@+id/nav_restaurants"
                 android:icon="@drawable/ic_local_dining_black_24dp"
+                android:title="Restaurante" />
+            <item
+                android:id="@+id/nav_cart"
+                android:icon="@drawable/ic_shopping_cart_black_24dp"
                 android:title="Comanda curenta" />
             <item
                 android:id="@+id/nav_history"
+                android:checked="false"
                 android:icon="@drawable/ic_history_black_24dp"
-                android:title="Istoric" />
+                android:title="Istoric comenzi" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@android:drawable/ic_menu_mapmode"

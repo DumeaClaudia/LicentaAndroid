@@ -49,6 +49,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.claudia.restaurants.MainActivity" />
         </activity>
+        <activity
+            android:name=".restaurants.list.RestaurantsActivity"
+            android:label="@string/title_activity_restaurant"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.claudia.restaurants.MainActivity" />
+        </activity>
+        <activity
+            android:name=".restaurants.details.RestaurantDetailsActivity"
+            android:label="@string/title_activity_restaurant_details"
+            android:parentActivityName=".restaurants.list.RestaurantsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.claudia.restaurants.restaurants.list.RestaurantsActivity" />
+        </activity>
     </application>
 
 </manifest>

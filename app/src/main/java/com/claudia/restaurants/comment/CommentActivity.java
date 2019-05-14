@@ -55,10 +55,6 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
-
-      //  SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-       // final String username = sharedPref.getString(this.getString(R.string.preference_saved_username), "");
-
         final ImageButton sendButton = findViewById(R.id.sendComment_imageButton);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +63,7 @@ public class CommentActivity extends AppCompatActivity {
                 TextView descriptionTextView = findViewById(R.id.addComment_editText);
                 String description = descriptionTextView.getText().toString();
 
-              //  Date sendDate = new Date();
-
-
                 if (!description.isEmpty()) {
-                   // commentListServices.addComment(new CommentItem(username, description, sendDate.toString(), true));
-                    //listViewAdapter.notifyDataSetChanged();
                     descriptionTextView.setText("");
                     new CommentActivity.UploadCommentsTask(listViewAdapter, commentListServices, description)
                             .execute(ServerConfig.getServletURL("add_comment", ""), "", "");

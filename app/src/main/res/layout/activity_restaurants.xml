@@ -7,14 +7,14 @@
     android:fitsSystemWindows="true"
     >
 
-
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".history.details.CartDetailsItem$CartDetailsActivity"
+        tools:context=".restaurants.list.RestaurantsActivity"
         >
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,47 +44,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10sp"
-                        android:background="@android:color/white"
-                        android:paddingTop="15sp"
-                        android:paddingBottom="15sp"
-                        android:text="Comenzi nefinalizate"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
                     <include
-                        android:id="@+id/cart_list_view"
-                        layout="@layout/cart_list_view" />
-
-                    <TextView
-                        android:id="@+id/textView40"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10sp"
-                        android:background="@android:color/white"
-                        android:paddingTop="15sp"
-                        android:paddingBottom="15sp"
-                        android:text="Comenzi finalizate"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <include
-                        android:id="@+id/cart_list_view2"
-                        layout="@layout/cart_list_view" />
+                        android:id="@+id/restaurant_list_view"
+                        layout="@layout/restaurant_list_view"
+                        android:layout_margin="10dp"></include>
                 </LinearLayout>
             </ScrollView>
-
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_add_white_24dp" />
+
     </android.support.design.widget.CoordinatorLayout>
 
 </android.support.v4.widget.DrawerLayout>
-
-

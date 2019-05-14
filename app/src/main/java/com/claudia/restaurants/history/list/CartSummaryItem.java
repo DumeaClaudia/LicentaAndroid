@@ -35,7 +35,7 @@ public class CartSummaryItem {
 
     @Override
     public String toString() {
-        return "CartSummaryItem{" +
+        return "RestaurantItem{" +
                 "idCart='" + idCart + '\'' +
                 ", cartActive=" + cartActive +
                 ", createdDate='" + createdDate + '\'' +
