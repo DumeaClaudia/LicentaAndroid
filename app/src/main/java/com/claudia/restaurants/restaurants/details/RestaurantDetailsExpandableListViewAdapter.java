@@ -1,9 +1,6 @@
 package com.claudia.restaurants.restaurants.details;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,38 +18,41 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
     AppCompatActivity baseActivity;
     Context context;
-    CartDetailsItem item;
+    RestaurantProductsItem item;
 
     public RestaurantDetailsExpandableListViewAdapter(AppCompatActivity baseActivity) {
         this.baseActivity = baseActivity;
         this.context = baseActivity.getApplicationContext();
-        this.item = new CartDetailsItem();
+        this.item = new RestaurantProductsItem();
 
     }
 
-    public void setItem(CartDetailsItem item) {
+    public void setItem(RestaurantProductsItem item) {
         this.item = item;
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getGroupCount() {
-        return item.getRestaurantProducts().size();
+        if(item.getProducts()!=null){
+            return (item.getProducts()).size();
+        }
+        return 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return item.getRestaurantProducts().get(groupPosition).getProducts().size();
+      return item.getProducts().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return item.getRestaurantProducts().get(groupPosition);
+        return item.getProducts().get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return item.getRestaurantProducts().get(groupPosition).getProducts();
+        return item.getProducts().get(groupPosition);
     }
 
     @Override
@@ -75,48 +75,9 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.restaurant_group_item, null);
+            convertView = layoutInflater.inflate(R.layout.restaurant_details_item, null);
         }
-        final RestaurantProductsItem restaurantProductsItem = item.getRestaurantProducts().get(groupPosition);
-
-        final ImageView mapLink  = convertView.findViewById(R.id.map_link);
-        mapLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q="+restaurantProductsItem.getRestaurantGeolocation());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (mapIntent.resolveActivity( baseActivity.getApplicationContext().getPackageManager()) != null) {
-
-                    baseActivity.getApplicationContext().startActivity(mapIntent);
-                }
-                else {
-                    Snackbar.make(mapLink,  "Could not open Maps", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-
-            }
-        });
-
-
-        final ImageView shareRestaurant  = convertView.findViewById(R.id.share_restaurant);
-        shareRestaurant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("text/plain");
-                //share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                //share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-                share.putExtra(Intent.EXTRA_TEXT, "Eating at : \nhttp://192.168.43.12:8080/ui/pages/shareRestaurant.xhtml?id="+restaurantProductsItem.getRestaurantId()+"\n");
-
-                share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-               // baseActivity.getApplicationContext().startActivity(Intent.createChooser(share, "Share"));
-                baseActivity.getApplicationContext().startActivity(share);
-            }
-        });
-
+        final RestaurantProductsItem restaurantProductsItem = item;
 
         TextView listTitleTextView = convertView.findViewById(R.id.restaurantName_textView);
         listTitleTextView.setText(restaurantProductsItem.getRestaurantName());
@@ -135,24 +96,9 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.product_list_item, null);
+            convertView = layoutInflater.inflate(R.layout.restaurant_product_item, null);
         }
-        final ProductDetailsItem product = item.getRestaurantProducts().get(groupPosition).getProducts().get(childPosition);
-
-        final ImageView shareProduct  = convertView.findViewById(R.id.share_product);
-        shareProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, "Eating... : \nhttp://192.168.43.12:8080/ui/pages/shareProduct.xhtml?id="+product.getIdProduct()+"\n");
-                share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                baseActivity.getApplicationContext().startActivity(share);
-            }
-        });
-
+        final ProductItem product = item.getProducts().get(childPosition);
 
         TextView listTitleTextView = convertView
                 .findViewById(R.id.product_textView);
@@ -174,7 +120,6 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
             imageViewProduct.setVisibility(ImageView.VISIBLE);
         } else {
             imageViewProduct.setVisibility(ImageView.GONE);
-           // downloadImageTask.execute(ServerConfig.getImageURI("grey.jpg"));
         }
         return convertView;
     }

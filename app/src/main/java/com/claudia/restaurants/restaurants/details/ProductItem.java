@@ -1,6 +1,6 @@
 package com.claudia.restaurants.restaurants.details;
 
-public class ProductDetailsItem {
+public class ProductItem {
 
     public long idProduct;
     public long idRestaurant;
@@ -11,7 +11,7 @@ public class ProductDetailsItem {
     public String price;
     public int discount;
 
-    public ProductDetailsItem(long idProduct, long idRestaurant, String image, String name, String category, String description, String price, int discount) {
+    public ProductItem(long idProduct, long idRestaurant, String image, String name, String category, String description, String price, int discount) {
         this.idProduct = idProduct;
         this.idRestaurant = idRestaurant;
         this.image = image;
@@ -22,7 +22,7 @@ public class ProductDetailsItem {
         this.discount = discount;
     }
 
-    public ProductDetailsItem() {
+    public ProductItem() {
         idProduct = 0;
         idRestaurant = 0;
         image = "";
@@ -99,7 +99,7 @@ public class ProductDetailsItem {
 
     @Override
     public String toString() {
-        return "ProductDetailsItem {" +
+        return "ProductItem {" +
                 " image = " + image + '\n' +
                 " name = " + name + '\n' +
                 " category = " + category + '\n' +

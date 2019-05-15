@@ -1,34 +1,36 @@
 package com.claudia.restaurants.restaurants.details;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantProductsItem {
-    public long restaurantId;
+
+    public Long restaurantId;
     public String restaurantName;
-    public String restaurantDescription;
     public String restaurantImage;
+    public String restaurantDescription;
     public String restaurantAddress;
     public String restaurantGeolocation;
 
-    public List<ProductDetailsItem> products;
+    public List<ProductItem> products;
 
-    public RestaurantProductsItem(long restaurantId, String restaurantName, String restaurantImage, String restaurantAddress, String restaurantGeolocation, List<ProductDetailsItem> products) {
+    public RestaurantProductsItem(Long restaurantId, String restaurantName, String restaurantImage, List<ProductItem> products) {
         this.restaurantId = restaurantId;
         this.restaurantName = restaurantName;
         this.restaurantImage = restaurantImage;
-        this.restaurantAddress = restaurantAddress;
-        this.restaurantGeolocation = restaurantGeolocation;
         this.products = products;
     }
 
     public RestaurantProductsItem() {
-        restaurantId = 0;
-        restaurantName = "";
-        restaurantImage = "";
-        restaurantAddress = "";
-        restaurantGeolocation = "";
-        products = new ArrayList<ProductDetailsItem>();
+    }
+
+    public RestaurantProductsItem(long restaurantId, String restaurantName, String restaurantImage, String restaurantDescription, String restaurantAddress, String restaurantGeolocation, List<ProductItem> products) {
+        this.restaurantId = restaurantId;
+        this.restaurantName = restaurantName;
+        this.restaurantImage = restaurantImage;
+        this.restaurantDescription = restaurantDescription;
+        this.restaurantAddress = restaurantAddress;
+        this.restaurantGeolocation = restaurantGeolocation;
+        this.products = products;
     }
 
     public long getRestaurantId() {
@@ -55,6 +57,14 @@ public class RestaurantProductsItem {
         this.restaurantImage = restaurantImage;
     }
 
+    public String getRestaurantDescription() {
+        return restaurantDescription;
+    }
+
+    public void setRestaurantDescription(String restaurantDescription) {
+        this.restaurantDescription = restaurantDescription;
+    }
+
     public String getRestaurantAddress() {
         return restaurantAddress;
     }
@@ -71,11 +81,11 @@ public class RestaurantProductsItem {
         this.restaurantGeolocation = restaurantGeolocation;
     }
 
-    public List<ProductDetailsItem> getProducts() {
+    public List<ProductItem> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductDetailsItem> products) {
+    public void setProducts(List<ProductItem> products) {
         this.products = products;
     }
 
@@ -84,18 +94,21 @@ public class RestaurantProductsItem {
 
         StringBuilder builder = new StringBuilder();
 
-        for(ProductDetailsItem p : products){
-            builder.append(p.toString());
+        for(ProductItem product : products){
+            builder.append(products.toString());
             builder.append(",\n");
-
         }
-        return "RestaurantProductsItem {" +
-                " restaurantId = " + restaurantId + '\n' +
-                " restaurantName = " + restaurantName + '\n' +
-                " restaurantImage = " + restaurantImage + '\n' +
-                " restaurantAddress = " + restaurantAddress + '\n' +
-                " products= [" + builder.toString() +
-                "]" + '}';
+        builder.append(",\n");
 
+        return "RestaurantProductsItem{" +
+                "restaurantId=" + restaurantId +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", restaurantImage='" + restaurantImage + '\'' +
+                ", restaurantDescription='" + restaurantDescription + '\'' +
+                ", restaurantAddress='" + restaurantAddress + '\'' +
+                ", restaurantGeolocation='" + restaurantGeolocation + '\'' +
+                "restaurantProducts = [" + builder.toString() +
+                '}';
     }
+
 }

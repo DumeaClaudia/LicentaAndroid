@@ -26,5 +26,5 @@
     <string name="action_history_carts">History</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_restaurant">Restaurante</string>
-    <string name="title_activity_restaurant_details">RestaurantDetailsActivity</string>
+    <string name="title_activity_restaurant_details">Produse</string>
 </resources>

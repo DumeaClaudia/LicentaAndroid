@@ -1,11 +1,14 @@
 package com.claudia.restaurants.restaurants.list;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.restaurants.details.RestaurantDetailsActivity;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 
@@ -40,17 +43,17 @@ public class RestaurantListViewAdapter extends RecyclerView.Adapter<RestaurantIt
         downloadImageTask.execute(ServerConfig.getImageURI(item.restaurantId+"/"+item.restaurantImage));
 
 
-       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
 
                 Intent intent = new Intent(context, RestaurantDetailsActivity.class);
-                intent.putExtra(RestaurantDetailsActivity.CART_ID_ARG, item.restaurantId);
+                intent.putExtra(RestaurantDetailsActivity.RESTAURANT_ID_ARG, item.restaurantId+"");
 
                context.startActivity(intent);
             }
-        });*/
+        });
 
     }
 
