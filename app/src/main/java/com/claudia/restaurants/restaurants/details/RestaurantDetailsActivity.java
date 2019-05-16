@@ -18,7 +18,7 @@ import com.claudia.restaurants.server.ServerConfig;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class RestaurantDetailsActivity extends AppCompatActivity {
-    public static final String  RESTAURANT_ID_ARG = "RESTAURANT_ID_ARG";
+    public static final String RESTAURANT_ID_ARG = "RESTAURANT_ID_ARG";
     String restaurantId;
     public RestaurantDetailsExpandableListViewAdapter restaurantDetailsExpandableListViewAdapter;
 
@@ -34,8 +34,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        if (restaurantId != null) {
+            new RestaurantDetailsActivity.DownloadRestaurantProductsTask(RestaurantDetailsActivity.this).execute(ServerConfig.getServletURL("get_restaurant_details", "restaurantId=" + restaurantId));
 
-        new RestaurantDetailsActivity.DownloadRestaurantProductsTask(RestaurantDetailsActivity.this).execute(ServerConfig.getServletURL("get_restaurant_details", "restaurantId="+restaurantId));
+        }
 
 
         ExpandableListView expandableListView = findViewById(R.id.products_expandableListView);
@@ -45,6 +47,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
         DownloadImageTask.init_cache();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

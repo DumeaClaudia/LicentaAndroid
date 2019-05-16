@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity
         TextView usernameTextView = header.findViewById(R.id.username_textView);
         usernameTextView.setText(username);
 
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.restaurant_list_view);
 
         restaurantListServices = new RestaurantListServices();
@@ -90,7 +89,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

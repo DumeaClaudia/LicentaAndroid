@@ -1,6 +1,7 @@
 package com.claudia.restaurants.restaurants.details;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.cart.CartActivity;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
 
@@ -34,7 +36,7 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
     @Override
     public int getGroupCount() {
-        if(item.getProducts()!=null){
+        if (item !=null && item.getProducts()!=null && item.getProducts().size() != 0) {
             return (item.getProducts()).size();
         }
         return 0;
@@ -42,7 +44,7 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
     @Override
     public int getChildrenCount(int groupPosition) {
-      return item.getProducts().size();
+        return item.getProducts().size();
     }
 
     @Override
@@ -84,7 +86,7 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
         ImageView imageViewRestaurant = convertView.findViewById(R.id.restaurant_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewRestaurant);
-        downloadImageTask.execute(ServerConfig.getImageURI( restaurantProductsItem.getRestaurantId() + "/" + restaurantProductsItem.getRestaurantImage()));
+        downloadImageTask.execute(ServerConfig.getImageURI(restaurantProductsItem.getRestaurantId() + "/" + restaurantProductsItem.getRestaurantImage()));
 
         ExpandableListView mExpandableListView = (ExpandableListView) parent;
         mExpandableListView.expandGroup(groupPosition);
@@ -103,14 +105,12 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
         TextView listTitleTextView = convertView
                 .findViewById(R.id.product_textView);
 
-        String restaurantId = product.getIdRestaurant()+"";
+        String restaurantId = product.getIdRestaurant() + "";
         listTitleTextView.setText(product.getName());
-
-
 
         TextView priceTextView = convertView
                 .findViewById(R.id.price_textView);
-        priceTextView.setText( product.getPrice() + " RON");
+        priceTextView.setText(product.getPrice() + " RON");
 
         ImageView imageViewProduct = convertView.findViewById(R.id.product_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewProduct);
@@ -121,7 +121,26 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
         } else {
             imageViewProduct.setVisibility(ImageView.GONE);
         }
-        return convertView;
+
+
+        final ImageView addProduct = convertView.findViewById(R.id.addProduct_imageView);
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (product.idProduct != 0) {
+                    Context context = view.getContext();
+
+                    Intent intent = new Intent(context, CartActivity.class);
+                    intent.putExtra(CartActivity.PRODUCT_ID_ARG, product.idProduct+"");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
+            }
+        });
+
+        return  convertView;
     }
 
     @Override

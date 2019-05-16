@@ -23,7 +23,6 @@ import java.net.URL;
 
 public class CommentActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-
     CommentListServices commentListServices;
     Boolean scroll = true;
 
@@ -37,10 +36,8 @@ public class CommentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
         recyclerView = findViewById(R.id.commentList_recyclerView);
         commentListServices = new CommentListServices();
-
 
         final CommentListViewAdapter listViewAdapter = new CommentListViewAdapter(this, commentListServices);
         recyclerView.setAdapter(listViewAdapter);
@@ -69,8 +66,6 @@ public class CommentActivity extends AppCompatActivity {
                             .execute(ServerConfig.getServletURL("add_comment", ""), "", "");
                     scroll = true;
                 }
-
-
 
             }
         });

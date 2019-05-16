@@ -88,7 +88,6 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
                 mapIntent.setPackage("com.google.android.apps.maps");
                 mapIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (mapIntent.resolveActivity( baseActivity.getApplicationContext().getPackageManager()) != null) {
-
                     baseActivity.getApplicationContext().startActivity(mapIntent);
                 }
                 else {
