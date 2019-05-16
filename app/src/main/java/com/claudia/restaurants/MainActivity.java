@@ -10,25 +10,25 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import com.claudia.restaurants.comment.CommentActivity;
+import com.claudia.restaurants.cart.CartActivity;
 import com.claudia.restaurants.history.HistoryActivity;
-import com.claudia.restaurants.history.details.CartDetailsExpandableListViewAdapter;
-import com.claudia.restaurants.history.details.CartDetailsItem;
 import com.claudia.restaurants.login.LoginActivity;
-import com.claudia.restaurants.restaurants.list.RestaurantsActivity;
-import com.claudia.restaurants.server.DownloadCartDetails;
+import com.claudia.restaurants.restaurants.list.RestaurantListServices;
+import com.claudia.restaurants.restaurants.list.RestaurantListViewAdapter;
 import com.claudia.restaurants.server.DownloadImageTask;
+import com.claudia.restaurants.server.DownloadRestaurantList;
 import com.claudia.restaurants.server.ServerConfig;
 
 import java.net.CookieManager;
@@ -37,7 +37,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public CartDetailsExpandableListViewAdapter cartDetailsExpandableListViewAdapter;
+    RecyclerView recyclerView;
+    RestaurantListServices restaurantListServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +47,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             /*   Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
-                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                getApplicationContext().startActivity(intent);
-
-
-            }
-        });
-
-
         SharedPreferences sharedPref = this.getSharedPreferences(this.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
-
         String username = sharedPref.getString(this.getString(R.string.preference_saved_username), "");
-        // String password = sharedPref.getString(this.getString(R.string.preference_saved_password), "");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,21 +63,34 @@ public class MainActivity extends AppCompatActivity
         TextView usernameTextView = header.findViewById(R.id.username_textView);
         usernameTextView.setText(username);
 
-        ExpandableListView expandableListView = findViewById(R.id.cart_expandableListView);
-        cartDetailsExpandableListViewAdapter = new CartDetailsExpandableListViewAdapter(this);
-        expandableListView.setAdapter(cartDetailsExpandableListViewAdapter);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        recyclerView = findViewById(R.id.restaurant_list_view);
 
+        restaurantListServices = new RestaurantListServices();
+
+        final RestaurantListViewAdapter restaurantListViewAdapter = new RestaurantListViewAdapter(this, restaurantListServices);
+
+        recyclerView.setAdapter(restaurantListViewAdapter);
+
+        DownloadImageTask.init_cache();
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new MainActivity.DownloadCartsUpdateCartTask(MainActivity.this).execute(ServerConfig.getServletURL("get_current_cart", ""));
+                new MainActivity.DownloadRestaurantsUpdateListTask(restaurantListViewAdapter, restaurantListServices).execute(ServerConfig.getServletURL("get_restaurants", ""), "", "");
                 handler.postDelayed(this, 10000);
             }
         });
-        DownloadImageTask.init_cache();
 
-
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -122,8 +118,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_history_carts) {
-            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+        if (id == R.id.action_current_cart) {
+            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
             return true;
@@ -147,9 +143,7 @@ public class MainActivity extends AppCompatActivity
             editor.putString(this.getString(R.string.preference_saved_username), "");
             editor.putString(this.getString(R.string.preference_saved_password), "");
 
-
             editor.apply();
-
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -158,11 +152,11 @@ public class MainActivity extends AppCompatActivity
             this.finish();
 
         } else if (id == R.id.nav_cart) {
-        } else if (id == R.id.nav_restaurants) {
-            Intent intent = new Intent(getApplicationContext(), RestaurantsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CartActivity.class);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
 
+        } else if (id == R.id.nav_restaurants) {
         } else if (id == R.id.nav_history) {
             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
             intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -194,27 +188,25 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    class DownloadCartsUpdateCartTask extends AsyncTask<String, Void, String> {
-        private AppCompatActivity cartDetailsActivity;
-        private CartDetailsItem cartDetailsItem;
+    class DownloadRestaurantsUpdateListTask extends AsyncTask<String, Void, String> {
+        private RestaurantListViewAdapter restaurantViewAdapter;
+        private RestaurantListServices restaurantListServices;
 
-        public DownloadCartsUpdateCartTask(AppCompatActivity cartDetailsActivity) {
-            this.cartDetailsActivity = cartDetailsActivity;
-
+        public DownloadRestaurantsUpdateListTask(RestaurantListViewAdapter restaurantViewAdapter, RestaurantListServices restaurantListServices){
+            this.restaurantViewAdapter = restaurantViewAdapter;
+            this.restaurantListServices = restaurantListServices;
         }
 
         protected String doInBackground(String... urls) {
-            cartDetailsItem = new DownloadCartDetails(urls[0]).invoke();
+            new DownloadRestaurantList(urls[0], restaurantListServices).invoke();
             return "";
         }
 
         protected void onPostExecute(String s) {
-            cartDetailsExpandableListViewAdapter.setItem(cartDetailsItem);
+            restaurantViewAdapter.notifyDataSetChanged();
         }
 
     }
-
-
 }
 
 

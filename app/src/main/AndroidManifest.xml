@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="Comanda curenta"
+            android:label="Restaurante"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".history.details.CartDetailsActivity"
@@ -66,6 +66,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.claudia.restaurants.restaurants.list.RestaurantsActivity" />
+        </activity>
+        <activity
+            android:name=".cart.CartActivity"
+            android:label="@string/title_activity_cart"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.claudia.restaurants.MainActivity" />
         </activity>
     </application>
 

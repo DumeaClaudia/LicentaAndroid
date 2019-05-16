@@ -1,19 +1,11 @@
 package com.claudia.restaurants.restaurants.list;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.claudia.restaurants.R;
-import com.claudia.restaurants.server.DownloadImageTask;
-import com.claudia.restaurants.server.DownloadRestaurantList;
-import com.claudia.restaurants.server.ServerConfig;
 
 public class RestaurantsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -27,7 +19,7 @@ public class RestaurantsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        recyclerView = findViewById(R.id.restaurant_list_view);
+        /*recyclerView = findViewById(R.id.restaurant_list_view);
 
         restaurantListServices = new RestaurantListServices();
 
@@ -56,10 +48,10 @@ public class RestaurantsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
     }
 
-    class DownloadRestaurantsUpdateListTask extends AsyncTask<String, Void, String> {
+    /*class DownloadRestaurantsUpdateListTask extends AsyncTask<String, Void, String> {
         private RestaurantListViewAdapter restaurantViewAdapter;
         private RestaurantListServices restaurantListServices;
 
@@ -77,5 +69,5 @@ public class RestaurantsActivity extends AppCompatActivity {
             restaurantViewAdapter.notifyDataSetChanged();
         }
 
-    }
+    }*/
 }

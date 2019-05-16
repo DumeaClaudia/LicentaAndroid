@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.claudia.restaurants.MainActivity;
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.restaurants.details.RestaurantDetailsActivity;
 import com.claudia.restaurants.server.DownloadImageTask;
@@ -14,11 +15,11 @@ import com.claudia.restaurants.server.ServerConfig;
 
 public class RestaurantListViewAdapter extends RecyclerView.Adapter<RestaurantItemViewHolder> {
 
-    private final RestaurantsActivity mParentActivity;
+    private final MainActivity mParentActivity;
     private final RestaurantListServices restaurantListServices;
 
     public RestaurantListViewAdapter(
-            RestaurantsActivity parent, RestaurantListServices services) {
+            MainActivity parent, RestaurantListServices services) {
         mParentActivity = parent;
         restaurantListServices = services;
     }
