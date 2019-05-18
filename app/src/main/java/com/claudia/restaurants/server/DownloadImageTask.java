@@ -52,6 +52,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
         if (bm == null)
             return null;
+
         int width = bm.getWidth();
         int height = bm.getHeight();
         float scaleWidth = ((float) newWidth) / width;
@@ -70,7 +71,8 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     protected void onPostExecute(Bitmap result) {
         Drawable img = new BitmapDrawable(bmImage.getResources(), result);
-        bmImage.setBackground(img);
+        //bmImage.setBackground(img);
+        bmImage.setImageDrawable(img);
     }
 
 

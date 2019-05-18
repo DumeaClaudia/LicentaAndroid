@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
-            android:id="@+id/frameLayout"
+            android:id="@+id/image_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
@@ -45,8 +45,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="0dp"
-                android:background="@color/colorAccent"
                 android:contentDescription="share"
+                android:scaleType="centerCrop"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/price_textView"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout"
+            app:layout_constraintStart_toEndOf="@+id/image_frame"
             app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout

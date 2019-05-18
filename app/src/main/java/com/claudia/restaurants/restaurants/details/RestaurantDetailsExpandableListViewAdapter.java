@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -127,12 +128,14 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
         ImageView imageViewProduct = convertView.findViewById(R.id.product_imageView);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewProduct);
+        FrameLayout frame = convertView.findViewById(R.id.image_frame);
 
         if (!product.getImage().equals("null") && !product.getImage().isEmpty()) {
             downloadImageTask.execute(ServerConfig.getImageURI(restaurantId + '/' + product.getImage()));
-            imageViewProduct.setVisibility(ImageView.VISIBLE);
+            //imageViewProduct.setVisibility(ImageView.VISIBLE);
+            frame.setVisibility(ImageView.VISIBLE);
         } else {
-            imageViewProduct.setVisibility(ImageView.GONE);
+            frame.setVisibility(ImageView.GONE);
         }
 
 

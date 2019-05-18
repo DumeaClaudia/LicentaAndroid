@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -166,13 +167,15 @@ public class CartDetailsExpandableListViewAdapter extends BaseExpandableListAdap
         priceTextView.setText( product.getPrice() + " RON");
 
         ImageView imageViewProduct = convertView.findViewById(R.id.product_imageView);
+        FrameLayout frame = convertView.findViewById(R.id.image_frame);
         DownloadImageTask downloadImageTask = new DownloadImageTask(imageViewProduct);
 
         if (!product.getImage().equals("null") && !product.getImage().isEmpty()) {
             downloadImageTask.execute(ServerConfig.getImageURI(restaurantId + '/' + product.getImage()));
-            imageViewProduct.setVisibility(ImageView.VISIBLE);
+           // imageViewProduct.setVisibility(ImageView.VISIBLE);
+            frame.setVisibility(ImageView.VISIBLE);
         } else {
-            imageViewProduct.setVisibility(ImageView.GONE);
+            frame.setVisibility(ImageView.GONE);
            // downloadImageTask.execute(ServerConfig.getImageURI("grey.jpg"));
         }
         return convertView;
