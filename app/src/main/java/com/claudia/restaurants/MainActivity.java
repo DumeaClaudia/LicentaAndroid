@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -72,14 +71,8 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(restaurantListViewAdapter);
 
         DownloadImageTask.init_cache();
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                new MainActivity.DownloadRestaurantsUpdateListTask(restaurantListViewAdapter, restaurantListServices).execute(ServerConfig.getServletURL("get_restaurants", ""), "", "");
-                handler.postDelayed(this, 10000);
-            }
-        });
+
+        new DownloadRestaurantsUpdateListTask(restaurantListViewAdapter, restaurantListServices).execute(ServerConfig.getServletURL("get_restaurants", ""), "", "");
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +183,7 @@ public class MainActivity extends AppCompatActivity
         private RestaurantListViewAdapter restaurantViewAdapter;
         private RestaurantListServices restaurantListServices;
 
-        public DownloadRestaurantsUpdateListTask(RestaurantListViewAdapter restaurantViewAdapter, RestaurantListServices restaurantListServices){
+        public DownloadRestaurantsUpdateListTask(RestaurantListViewAdapter restaurantViewAdapter, RestaurantListServices restaurantListServices) {
             this.restaurantViewAdapter = restaurantViewAdapter;
             this.restaurantListServices = restaurantListServices;
         }

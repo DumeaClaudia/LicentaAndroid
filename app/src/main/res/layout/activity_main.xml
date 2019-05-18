@@ -35,23 +35,13 @@
             android:layout_marginTop="56dp"
             android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <include
+                android:id="@+id/restaurant_list_view"
+                layout="@layout/restaurant_list_view">
+                <!--  android:layout_margin="10dp"-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            </include>
 
-                    <include
-                        android:id="@+id/restaurant_list_view"
-                        layout="@layout/restaurant_list_view">
-                      <!--  android:layout_margin="10dp"-->
-
-                    </include>
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

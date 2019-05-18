@@ -6,10 +6,10 @@
     android:name="com.example.android.json_list.JsonItemListFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="false"
+
     app:layoutManager="LinearLayoutManager"
     tools:context=".MainActivity"
-    tools:listitem="@layout/cart_list_item"
-
-    >
+    tools:listitem="@layout/cart_list_item">
 
 </android.support.v7.widget.RecyclerView>

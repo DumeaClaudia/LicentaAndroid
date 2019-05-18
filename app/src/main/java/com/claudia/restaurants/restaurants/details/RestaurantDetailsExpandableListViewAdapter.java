@@ -1,8 +1,9 @@
 package com.claudia.restaurants.restaurants.details;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,17 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.claudia.restaurants.R;
-import com.claudia.restaurants.cart.CartActivity;
 import com.claudia.restaurants.server.DownloadImageTask;
 import com.claudia.restaurants.server.ServerConfig;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableListAdapter {
 
@@ -25,7 +32,8 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
     public RestaurantDetailsExpandableListViewAdapter(AppCompatActivity baseActivity) {
         this.baseActivity = baseActivity;
         this.context = baseActivity.getApplicationContext();
-        this.item = new RestaurantProductsItem();
+        this.item = null;
+       // baseActivity.get
 
     }
 
@@ -36,10 +44,15 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
     @Override
     public int getGroupCount() {
-        if (item !=null && item.getProducts()!=null && item.getProducts().size() != 0) {
-            return (item.getProducts()).size();
+//        if (item !=null && item.getProducts()!=null && item.getProducts().size() != 0) {
+//            return (item.getProducts()).size();
+//        }
+        if (item != null) {
+            return 1;
+        } else {
+            return 0;
         }
-        return 0;
+
     }
 
     @Override
@@ -49,12 +62,12 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
     @Override
     public Object getGroup(int groupPosition) {
-        return item.getProducts().get(groupPosition);
+        return item.getProducts();
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return item.getProducts().get(groupPosition);
+        return item.getProducts().get(childPosition);
     }
 
     @Override
@@ -129,12 +142,15 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
             public void onClick(View view) {
 
                 if (product.idProduct != 0) {
+                    /*
                     Context context = view.getContext();
 
                     Intent intent = new Intent(context, CartActivity.class);
                     intent.putExtra(CartActivity.PRODUCT_ID_ARG, product.idProduct+"");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    context.startActivity(intent); */
+                    new RestaurantDetailsExpandableListViewAdapter.UploadNewProductTask(RestaurantDetailsExpandableListViewAdapter.this.context, product.idProduct +"")
+                            .execute(ServerConfig.getServletURL("add_new_product", "productId=" + product.idProduct), "", "");
                 }
 
             }
@@ -147,4 +163,51 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
+
+    public class UploadNewProductTask extends AsyncTask<String, Void, String> {
+        String productId;
+        Context context;
+
+        public UploadNewProductTask(Context context, String productId) {
+            this.productId = productId;
+            this.context = context;
+        }
+
+        protected String doInBackground(String... urls) {
+
+            String urldisplay = urls[0];
+
+            HttpURLConnection conn;
+            try {
+                conn = (HttpURLConnection) new URL(urldisplay).openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(65000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+
+                BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+                outputStream.write(productId);
+                outputStream.flush();
+
+                int response = conn.getResponseCode();
+                Log.d("CLAU_LOG", "The response is: " + response);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+
+        protected void onPostExecute(String s) {
+            CharSequence text = "Produsul a fost adaugat!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+    }
+
 }
