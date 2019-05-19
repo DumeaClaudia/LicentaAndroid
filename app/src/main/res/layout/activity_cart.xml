@@ -35,24 +35,37 @@
             android:layout_marginTop="?attr/actionBarSize">
 
 
+            <Button
+                android:id="@+id/sendCommand_button"
+                style="@style/FlatButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Finalizare comanda"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <ExpandableListView
                 android:id="@+id/cart_expandableListView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/sendCommand_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ExpandableListView>
 
         </android.support.constraint.ConstraintLayout>
-
+<!--
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/ic_insert_comment_white_24dp" />
+            app:srcCompat="@drawable/ic_insert_comment_white_24dp" /> -->
 
     </android.support.design.widget.CoordinatorLayout>
 

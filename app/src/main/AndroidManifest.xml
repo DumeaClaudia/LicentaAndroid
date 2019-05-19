@@ -42,11 +42,11 @@
         <activity
             android:name=".comment.CommentActivity"
             android:label="@string/title_activity_comment"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".cart.CartActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.claudia.restaurants.MainActivity" />
+                android:value="com.claudia.restaurants.cart.CartActivity" />
         </activity>
         <activity
             android:name=".restaurants.details.RestaurantDetailsActivity"

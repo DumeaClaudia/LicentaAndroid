@@ -9,8 +9,8 @@
         android:titleCondensed="0"
         app:showAsAction="always|withText" />-->
     <item
-        android:id="@+id/action_current_cart"
-        android:icon="@drawable/ic_shopping_cart_white_24dp"
+        android:id="@+id/action_comments"
+        android:icon="@drawable/ic_insert_comment_white_24dp"
         android:orderInCategory="100"
         android:title="0"
         app:showAsAction="never|always" />
