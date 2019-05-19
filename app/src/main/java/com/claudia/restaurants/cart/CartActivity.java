@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.comment.CommentActivity;
@@ -131,6 +132,14 @@ public class CartActivity extends AppCompatActivity {
 
         protected void onPostExecute(String s) {
             currentCartExpandableListViewAdapter.setList(userProductsItemList);
+            double total  = 0;
+            for (UserProductsItem p: userProductsItemList ) {
+                total += p.getTotalPrice();
+            }
+        TextView totalPrice= cartDetailsActivity.findViewById(R.id.total_textView);
+            totalPrice.setText("Total: " + total + " RON");
+
+
         }
 
     }

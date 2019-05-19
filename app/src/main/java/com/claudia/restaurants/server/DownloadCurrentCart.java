@@ -53,9 +53,9 @@ public class DownloadCurrentCart {
 
                 JSONObject userItemObj = userListObj.getJSONObject(nr);
 
+
                 String username = userItemObj.getString("username");
                 Double totalPrice = userItemObj.getDouble("totalPrice");
-
                 JSONArray productsArrayObj = userItemObj.getJSONArray("cartDetails");
                 List<ProductDetailsCartItem> cartProducts = new ArrayList<>();
 
