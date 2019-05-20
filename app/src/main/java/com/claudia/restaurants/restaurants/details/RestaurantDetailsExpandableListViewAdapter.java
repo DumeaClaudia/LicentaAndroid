@@ -34,8 +34,6 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
         this.baseActivity = baseActivity;
         this.context = baseActivity.getApplicationContext();
         this.item = null;
-       // baseActivity.get
-
     }
 
     public void setItem(RestaurantProductsItem item) {

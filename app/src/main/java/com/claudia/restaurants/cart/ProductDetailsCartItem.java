@@ -6,9 +6,11 @@ public class ProductDetailsCartItem {
 	private String productName;
 	private double price;
 	private int nrProducts;
+	private long productId;
 
-	public ProductDetailsCartItem(String restaurantName, String productName, double price, int nrProducts) {
+	public ProductDetailsCartItem(String restaurantName, long productId, String productName, double price, int nrProducts) {
 		this.restaurantName = restaurantName;
+		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
 		this.nrProducts = nrProducts;
@@ -46,4 +48,12 @@ public class ProductDetailsCartItem {
 		this.nrProducts = nrProducts;
 	}
 
+
+	public long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
 }

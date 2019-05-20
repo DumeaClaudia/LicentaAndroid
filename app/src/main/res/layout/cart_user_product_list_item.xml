@@ -75,12 +75,23 @@
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
 
-                android:textStyle="italic"
                 android:typeface="serif"
                 app:layout_constraintEnd_toEndOf="@+id/product_textView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/product_textView"
                 tools:text="@string/title_activity_restaurant" />
+
+            <ImageView
+                android:id="@+id/removeProduct_imageView"
+                android:layout_width="32dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_remove_green_24dp"
+                app:layout_constraintEnd_toEndOf="@+id/price_textView"
+                app:layout_constraintHorizontal_bias="0.914"
+                app:layout_constraintStart_toEndOf="@+id/restaurantName_textView"
+                app:layout_constraintTop_toBottomOf="@+id/price_textView"
+                app:srcCompat="@drawable/ic_remove_green_24dp" />
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>

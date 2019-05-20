@@ -2,15 +2,25 @@ package com.claudia.restaurants.cart;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.server.ServerConfig;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,12 +130,25 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
         TextView restaurantTextView = convertView
                 .findViewById(R.id.restaurantName_textView);
 
-        restaurantTextView.setText(product.getRestaurantName());
+        restaurantTextView.setText("(Restaurant: " + product.getRestaurantName() + ")");
 
         TextView priceTextView = convertView
                 .findViewById(R.id.price_textView);
         priceTextView.setText(product.getNrProducts() + "x " + product.getPrice() + " RON");
 
+
+        final ImageView removeProduct = convertView.findViewById(R.id.removeProduct_imageView);
+        removeProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (product.getProductId() != 0) {
+                    new CurrentCartExpandableListViewAdapter.UploadOldProductTask(CurrentCartExpandableListViewAdapter.this.context, product.getProductId() +"")
+                            .execute(ServerConfig.getServletURL("remove_product", "productId=" + product.getProductId()), "", "");
+                }
+
+            }
+        });
 
         return convertView;
     }
@@ -133,5 +156,50 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    public class UploadOldProductTask extends AsyncTask<String, Void, String> {
+        String productId;
+        Context context;
+
+        public UploadOldProductTask(Context context, String productId) {
+            this.productId = productId;
+            this.context = context;
+        }
+
+        protected String doInBackground(String... urls) {
+
+            String urldisplay = urls[0];
+
+            HttpURLConnection conn;
+            try {
+                conn = (HttpURLConnection) new URL(urldisplay).openConnection();
+                conn.setReadTimeout(60000 /* milliseconds */);
+                conn.setConnectTimeout(65000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+
+                BufferedWriter outputStream = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+                outputStream.write(productId);
+                outputStream.flush();
+
+                int response = conn.getResponseCode();
+                Log.d("CLAU_LOG", "The response is: " + response);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+
+        protected void onPostExecute(String s) {
+            CharSequence text = "Produsul a fost eliminat!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 }
