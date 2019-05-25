@@ -25,7 +25,7 @@
             android:id="@+id/price_textView"
             android:layout_width="71dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="18dp"
             android:layout_marginEnd="40dp"
             android:fontFamily="serif"
             android:text="3x50 RON"
@@ -80,29 +80,16 @@
             app:layout_constraintStart_toEndOf="@+id/image_frame"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+        <ImageButton
+            android:id="@+id/addProduct_imageButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
-            android:padding="2dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/rounded_rectangle"
+            android:src="@drawable/ic_add_green_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/price_textView"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/addProduct_imageView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/ic_add_green_24dp"
-                android:padding="3dp"
-                tools:layout_editor_absoluteX="320dp"
-                tools:layout_editor_absoluteY="16dp" />
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>

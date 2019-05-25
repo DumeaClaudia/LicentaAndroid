@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:fontFamily="serif"
         android:hint="Telefon"
         android:inputType="phone" />
 
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:fontFamily="serif"
         android:hint="Adresa"
         android:inputType="textPostalAddress" />
 
@@ -28,13 +30,14 @@
         android:id="@+id/payment_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:fontFamily="serif"
+        android:paddingLeft="5dp"
         android:text="Plata:"
         android:textSize="18sp" />
 
     <RadioGroup
         android:id="@+id/payment_radioGroup"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -43,27 +46,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Card credit" />
+            android:fontFamily="serif"
+            android:text="Card credit"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Card debit" />
+            android:fontFamily="serif"
+            android:text="Card debit"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ramburs" />
+            android:fontFamily="serif"
+            android:text="Ramburs"
+            android:textSize="16sp" />
     </RadioGroup>
 
     <Button
         android:id="@+id/checkout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="serif"
         android:text="Trimite comanda" />
 
 </LinearLayout>

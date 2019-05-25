@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,11 +27,11 @@ import java.util.List;
 
 public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdapter {
 
-    AppCompatActivity baseActivity;
+    CartActivity baseActivity;
     Context context;
     List<UserProductsItem> userProductsItemList;
-
-    public CurrentCartExpandableListViewAdapter(AppCompatActivity baseActivity) {
+    String username = "";
+    public CurrentCartExpandableListViewAdapter(CartActivity baseActivity) {
         this.baseActivity = baseActivity;
         this.context = baseActivity.getApplicationContext();
         this.userProductsItemList = new ArrayList<>();
@@ -40,6 +41,8 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
     public void setList(List<UserProductsItem> item) {
         userProductsItemList = item;
         this.notifyDataSetChanged();
+        SharedPreferences sharedPref = baseActivity.getSharedPreferences(baseActivity.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPref.getString(baseActivity.getString(R.string.preference_saved_username), "");
     }
 
     @Override
@@ -90,9 +93,8 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
         usernameTextView.setText(userItem.getUsername());
 
         final TextView subTotalTextView = convertView.findViewById(R.id.subtotal_textView);
-        subTotalTextView.setText("Subtotal: " + userItem.getTotalPrice() + " RON");
-        SharedPreferences sharedPref = baseActivity.getSharedPreferences(baseActivity.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String username = sharedPref.getString(baseActivity.getString(R.string.preference_saved_username), "");
+        subTotalTextView.setText("Subtotal: " + String.format("%.2f", userItem.getTotalPrice()) + " RON");
+
 
         /*
         if (userItem.getUsername().equals(username)) {
@@ -133,18 +135,25 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
         restaurantTextView.setText("(Restaurant: " + product.getRestaurantName() + ")");
 
         TextView priceTextView = convertView
-                .findViewById(R.id.price_textView);
-        priceTextView.setText(product.getNrProducts() + "x " + product.getPrice() + " RON");
+                .findViewById(R.id.price_textView); // String.format("%.2f", price)
+        priceTextView.setText("Pret: " + product.getNrProducts() + "x " + String.format("%.2f", product.getPrice()) + " RON");
 
 
-        final ImageView removeProduct = convertView.findViewById(R.id.removeProduct_imageView);
+        final ImageButton removeProduct = convertView.findViewById(R.id.removeProduct_imageButton);
+
+        if (!this.username.equals(this.userProductsItemList.get(groupPosition).getUsername())) {
+            removeProduct.setVisibility(ImageButton.INVISIBLE);
+        }else{
+            removeProduct.setVisibility(ImageButton.VISIBLE);
+        }
         removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (product.getProductId() != 0) {
-                    new CurrentCartExpandableListViewAdapter.UploadOldProductTask(CurrentCartExpandableListViewAdapter.this.context, product.getProductId() +"")
+                    new CurrentCartExpandableListViewAdapter.UploadOldProductTask(CurrentCartExpandableListViewAdapter.this.context, baseActivity,product.getProductId() + "")
                             .execute(ServerConfig.getServletURL("remove_product", "productId=" + product.getProductId()), "", "");
+
                 }
 
             }
@@ -161,10 +170,12 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
     public class UploadOldProductTask extends AsyncTask<String, Void, String> {
         String productId;
         Context context;
+        CartActivity baseActivity;
 
-        public UploadOldProductTask(Context context, String productId) {
+        public UploadOldProductTask(Context context, CartActivity baseActivity, String productId) {
             this.productId = productId;
             this.context = context;
+            this.baseActivity = baseActivity;
         }
 
         protected String doInBackground(String... urls) {
@@ -200,6 +211,7 @@ public class CurrentCartExpandableListViewAdapter extends BaseExpandableListAdap
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+            baseActivity.updateCart();
         }
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -137,7 +138,9 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
         }
 
 
-        final ImageView addProduct = convertView.findViewById(R.id.addProduct_imageView);
+
+
+        final ImageButton addProduct = convertView.findViewById(R.id.addProduct_imageButton);
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,6 +159,7 @@ public class RestaurantDetailsExpandableListViewAdapter extends BaseExpandableLi
 
             }
         });
+
 
         return  convertView;
     }

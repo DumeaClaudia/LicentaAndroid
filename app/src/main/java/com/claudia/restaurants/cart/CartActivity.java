@@ -63,7 +63,7 @@ public class CartActivity extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                new CartActivity.DownloadCartsUpdateCartTask(CartActivity.this).execute(ServerConfig.getServletURL("get_current_cart", ""));
+                updateCart();
                 handler.postDelayed(this, 10000);
             }
         });
@@ -91,6 +91,10 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
+    public void updateCart(){
+        new CartActivity.DownloadCartsUpdateCartTask(CartActivity.this).execute(ServerConfig.getServletURL("get_current_cart", ""));
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,6 +120,7 @@ public class CartActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     class DownloadCartsUpdateCartTask extends AsyncTask<String, Void, String> {
         private CartActivity cartDetailsActivity;
         private List<UserProductsItem> userProductsItemList;
@@ -132,12 +137,12 @@ public class CartActivity extends AppCompatActivity {
 
         protected void onPostExecute(String s) {
             currentCartExpandableListViewAdapter.setList(userProductsItemList);
-            double total  = 0;
-            for (UserProductsItem p: userProductsItemList ) {
+            double total = 0;
+            for (UserProductsItem p : userProductsItemList) {
                 total += p.getTotalPrice();
             }
-        TextView totalPrice= cartDetailsActivity.findViewById(R.id.total_textView);
-            totalPrice.setText("Total: " + total + " RON");
+            TextView totalPrice = cartDetailsActivity.findViewById(R.id.total_textView);
+            totalPrice.setText("Total: " + String.format("%.2f", total) + " RON");
 
 
         }

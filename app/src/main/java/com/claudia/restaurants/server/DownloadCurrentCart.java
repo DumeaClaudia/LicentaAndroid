@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class DownloadCurrentCart {
@@ -71,6 +73,7 @@ public class DownloadCurrentCart {
                     ProductDetailsCartItem productDetailsCartItem = new ProductDetailsCartItem(restaurantName, productId, productName, productPrice, nrProducts);
                     cartProducts.add(productDetailsCartItem);
                 }
+
 
                 UserProductsItem userProductsItem = new UserProductsItem(username, totalPrice, cartProducts);
                 userProductsItemList.add(userProductsItem);
