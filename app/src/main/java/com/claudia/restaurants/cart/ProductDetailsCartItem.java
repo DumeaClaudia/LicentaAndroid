@@ -3,19 +3,27 @@ package com.claudia.restaurants.cart;
 public class ProductDetailsCartItem {
 	
 	private String restaurantName;
+	private String restaurantGeolocation;
+	private String restaurantAddress;
 	private String productName;
 	private double price;
 	private int nrProducts;
 	private long productId;
 
-	public ProductDetailsCartItem(String restaurantName, long productId, String productName, double price, int nrProducts) {
+	public ProductDetailsCartItem(String restaurantName, String restaurantGeolocation, String restaurantAddress,  long productId, String productName, double price, int nrProducts) {
 		this.restaurantName = restaurantName;
+		this.restaurantGeolocation = restaurantGeolocation;
+		this.restaurantAddress = restaurantAddress;
 		this.productId = productId;
 		this.productName = productName;
 		this.price = price;
 		this.nrProducts = nrProducts;
 	}
 
+	public ProductDetailsCartItem(String restaurantGeolocation, String restaurantAddress){
+		this.restaurantGeolocation = restaurantGeolocation;
+		this.restaurantAddress = restaurantAddress;
+	}
 	public String getRestaurantName() {
 		return restaurantName;
 	}
@@ -55,5 +63,21 @@ public class ProductDetailsCartItem {
 
 	public void setProductId(long productId) {
 		this.productId = productId;
+	}
+
+	public String getRestaurantGeolocation() {
+		return restaurantGeolocation;
+	}
+
+	public void setRestaurantGeolocation(String restaurantGeolocation) {
+		this.restaurantGeolocation = restaurantGeolocation;
+	}
+
+	public String getRestaurantAddress() {
+		return restaurantAddress;
+	}
+
+	public void setRestaurantAddress(String restaurantAddress) {
+		this.restaurantAddress = restaurantAddress;
 	}
 }

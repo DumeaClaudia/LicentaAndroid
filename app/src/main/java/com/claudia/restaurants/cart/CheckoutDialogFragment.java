@@ -1,6 +1,7 @@
 package com.claudia.restaurants.cart;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,8 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.claudia.restaurants.R;
+import com.claudia.restaurants.map.MapsActivity;
 import com.claudia.restaurants.server.ServerConfig;
 
 import org.json.JSONException;
@@ -26,6 +29,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 
 public class CheckoutDialogFragment extends DialogFragment {
@@ -71,9 +76,19 @@ public class CheckoutDialogFragment extends DialogFragment {
                 RadioButton payment = dialog.findViewById(paymentId);
                 String paymentValue = payment.getText().toString();
 
-                CheckoutDetails details = new CheckoutDetails(telephone, address, paymentValue);
+                if (telephone.isEmpty() || address.isEmpty() || paymentValue.isEmpty()) {
+                    Toast t = Toast.makeText(CheckoutDialogFragment.this.getContext(), "Toate campurile sunt obligatorii1", Toast.LENGTH_LONG);
+                    t.show();
 
-                new CheckoutDialogFragment.CheckoutTask(CheckoutDialogFragment.this, details).execute(ServerConfig.getServletURL("checkout_cart", ""));
+                } else {
+                    //  CheckoutDetails details = new CheckoutDetails(telephone, address, paymentValue);
+                    //   new CheckoutDialogFragment.CheckoutTask(CheckoutDialogFragment.this, details).execute(ServerConfig.getServletURL("checkout_cart", ""));
+                    Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
+                    intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    CheckoutDialogFragment.this.getContext().startActivity(intent);
+
+                }
+
                 //dismiss();
             }
         });
@@ -100,7 +115,7 @@ public class CheckoutDialogFragment extends DialogFragment {
                 conn.setConnectTimeout(65000 /* milliseconds */);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json; utf-8");
-                  conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
                 //conn.connect();
                 JSONObject json = new JSONObject();
@@ -131,6 +146,9 @@ public class CheckoutDialogFragment extends DialogFragment {
 
         protected void onPostExecute(String s) {
             dialog.dismiss();
+            //        Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
+            //       intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+            //       CheckoutDialogFragment.this.getContext().startActivity(intent);
         }
     }
 

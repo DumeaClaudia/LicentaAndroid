@@ -65,12 +65,14 @@ public class DownloadCurrentCart {
                     JSONObject item = productsArrayObj.getJSONObject(i);
 
                     String restaurantName = item.getString("restaurantName");
+                    String restaurantGeolocation = item.getString("restaurantGeolocation");
+                    String restaurantAddress = item.getString("restaurantAddress");
                     long productId = item.getInt("productId");
                     String productName = item.getString("productName");
                     Double productPrice = item.getDouble("price");
                     int nrProducts = item.getInt("nrProducts");
 
-                    ProductDetailsCartItem productDetailsCartItem = new ProductDetailsCartItem(restaurantName, productId, productName, productPrice, nrProducts);
+                    ProductDetailsCartItem productDetailsCartItem = new ProductDetailsCartItem(restaurantName,restaurantGeolocation,restaurantAddress, productId, productName, productPrice, nrProducts);
                     cartProducts.add(productDetailsCartItem);
                 }
 
