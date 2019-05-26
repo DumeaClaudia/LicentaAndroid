@@ -35,7 +35,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/restaurant_textView"
+            android:id="@+id/restaurantName_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -58,7 +58,7 @@
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/frame"
-            app:layout_constraintTop_toBottomOf="@+id/restaurant_textView" />
+            app:layout_constraintTop_toBottomOf="@+id/restaurantName_textView" />
 
         <TextView
             android:id="@+id/createdDate_textView"

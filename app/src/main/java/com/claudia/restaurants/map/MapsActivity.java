@@ -1,23 +1,22 @@
 package com.claudia.restaurants.map;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.cart.ProductDetailsCartItem;
 import com.claudia.restaurants.cart.UserProductsItem;
 import com.claudia.restaurants.server.DownloadCurrentCart;
 import com.claudia.restaurants.server.ServerConfig;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,31 +26,44 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
 
     private GoogleMap googleMap;
     SupportMapFragment mapFragment;
     private List<UserProductsItem> userProductsItemList;
+    Location current_location;
+    Marker current_position_marker = null;
+    RestaurantListServices restaurantListServices;
+    RestaurantListViewAdapter restaurantListViewAdapter;
 
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private Polyline mMutablePolyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+
         new MapsActivity.DownloadCartsUpdateMapTask(this).execute(ServerConfig.getServletURL("get_current_cart", ""));
 
-
+        restaurantListServices = new RestaurantListServices();
+        restaurantListViewAdapter = new RestaurantListViewAdapter(this, restaurantListServices);
+        RecyclerView restaurantsRecyclerView = findViewById(R.id.restaurantList_recyclerView);
+        restaurantsRecyclerView.setAdapter(restaurantListViewAdapter);
     }
 
     void addMap() {
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
     }
 
@@ -70,6 +82,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     void addMarkers() {
+
+
+      /*  PolylineOptions polylineOptions = new PolylineOptions()
+                .color(Color.BLUE)
+                .width(2);
+*/
+
         Map<String, ProductDetailsCartItem> restaurantGeolocations = new HashMap<>();
         for (UserProductsItem userProductsItem : userProductsItemList) {
             for (ProductDetailsCartItem productDetailsCartItem : userProductsItem.getCartDetails()) {
@@ -78,8 +97,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }
+        restaurantListServices.removeElements();
         LatLng position = new LatLng(0, 0);
         String address = "";
+        int restaurantPosition = 0;
         for (HashMap.Entry<String, ProductDetailsCartItem> restaurantDetails : restaurantGeolocations.entrySet()) {
             try {
                 String geolocation = restaurantDetails.getValue().getRestaurantGeolocation();
@@ -94,55 +115,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } finally {
                 MarkerOptions mo = new MarkerOptions().position(position).title(restaurantDetails.getKey());
                 mo.visible(true);
-               // mo.flat(true);
+                // mo.flat(true);
                 mo.snippet(address);
 
                 Marker marker = googleMap.addMarker(mo);
                 marker.showInfoWindow();
+               // polylineOptions.add(position);
+                RestaurantMapItem restaurantMapItem = new RestaurantMapItem(restaurantDetails.getKey(), restaurantDetails.getValue().getRestaurantAddress(), ++restaurantPosition, position, marker);
+                restaurantListServices.addRestaurant(restaurantMapItem);
 
             }
         }
+
         UiSettings settings = googleMap.getUiSettings();
         settings.setMapToolbarEnabled(true);
         settings.setMyLocationButtonEnabled(true);
         settings.setCompassEnabled(true);
+        googleMap.setContentDescription("restarurants");
+        googleMap.setTrafficEnabled(true);
 
-
-        try {
-            //LocationManager locationManager = (LocationManager)
-            //        getSystemService(Context.LOCATION_SERVICE);
-            //Criteria criteria = new Criteria();
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                checkPermissions();
-            }
-            //Location location = locationManager.getLastKnownLocation(locationManager
-            //        .getBestProvider(criteria, true));
-            //Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            googleMap.setMyLocationEnabled(true);
-
-            Location location = googleMap.getMyLocation();
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            position = new LatLng(latitude, longitude);
-            MarkerOptions mo = new MarkerOptions().position(position).title("My location");
-            mo.visible(true);
-           // mo.flat(true);
-           // mo.snippet("my location");
-
-            mo.icon(BitmapDescriptorFactory.defaultMarker(
-                    BitmapDescriptorFactory.HUE_AZURE));
-            Marker marker = googleMap.addMarker(mo);
-            marker.showInfoWindow();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
 
-        //googleMap.setOnMyLocationButtonClickListener(this);
+        googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
+
+        checkPermissions();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
+
+        restaurantListViewAdapter.notifyDataSetChanged();
+        /*if (mMutablePolyline != null) {
+            mMutablePolyline.remove();
+        }
+        mMutablePolyline = googleMap.addPolyline(polylineOptions);
+*/
     }
 
+    public void moveMapTo(LatLng position) {
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+    }
 
 
     private void setProducts(List<UserProductsItem> userProductsItemList) {
@@ -160,24 +175,63 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.addMarkers();
 
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (checkPermissions()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            current_location = location;
+                            markCurrentLocation(location);
+
+                        }
+                    });
+        }
+
+
     }
 
     @Override
-    public void onMyLocationClick(@NonNull Location location) {
-        LatLng position;
+    public void onMyLocationClick(Location location) {
+        markCurrentLocation(location);
+    }
 
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        position = new LatLng(latitude, longitude);
-        MarkerOptions mo = new MarkerOptions().position(position).title("My location");
-        mo.visible(true);
-      //  mo.flat(true);
-        mo.snippet("my location");
+    private void markCurrentLocation(Location location) {
+        if (location != null) {
 
-        mo.icon(BitmapDescriptorFactory.defaultMarker(
-                BitmapDescriptorFactory.HUE_AZURE));
-        Marker marker = googleMap.addMarker(mo);
-        marker.showInfoWindow();
+            LatLng position;
+            current_location = location;
+
+
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            position = new LatLng(latitude, longitude);
+            if (current_position_marker == null) {
+                MarkerOptions mo = new MarkerOptions().position(position).title("My location");
+                mo.visible(true);
+                //  mo.flat(true);
+                //mo.snippet("my location");
+
+                mo.icon(BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_AZURE));
+                googleMap.addMarker(mo);
+            } else {
+                current_position_marker.setPosition(position);
+            }
+            // marker.showInfoWindow();
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+        }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        markCurrentLocation(current_location);
+        return false;
     }
 
 

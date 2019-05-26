@@ -15,7 +15,7 @@ public class CartItemViewHolder extends RecyclerView.ViewHolder{
 
     public CartItemViewHolder(View view) {
         super(view);
-        restaurantTextView = view.findViewById( R.id.restaurant_textView);
+        restaurantTextView = view.findViewById( R.id.restaurantName_textView);
         createdDateTextView = view.findViewById( R.id.createdDate_textView);
         nrProductsTextView = view.findViewById(R.id.produse_textView);
         imageRestaurantTextView = view.findViewById(R.id.imageRestaurant_textView);
