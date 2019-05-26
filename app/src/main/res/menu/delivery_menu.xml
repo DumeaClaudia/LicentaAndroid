@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item
+        android:id="@+id/nrPoducts_menuItem"
+        android:orderInCategory="101"
+        android:title="0"
+        android:titleCondensed="0"
+        app:showAsAction="always|withText" />-->
+    <item
+        android:id="@+id/action_zoom"
+        android:checkable="true"
+        android:checked="false"
+        android:icon="@android:drawable/ic_menu_zoom"
+        android:orderInCategory="100"
+        android:title="Harta fullscreen"
+        app:showAsAction="never" />
+</menu>

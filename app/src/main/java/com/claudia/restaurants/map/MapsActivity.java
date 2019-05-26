@@ -1,18 +1,28 @@
 package com.claudia.restaurants.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.cart.ProductDetailsCartItem;
 import com.claudia.restaurants.cart.UserProductsItem;
+import com.claudia.restaurants.comment.CommentActivity;
 import com.claudia.restaurants.server.DownloadCurrentCart;
 import com.claudia.restaurants.server.ServerConfig;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -33,7 +43,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
 
     private GoogleMap googleMap;
     SupportMapFragment mapFragment;
@@ -45,12 +57,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private FusedLocationProviderClient fusedLocationClient;
 
-    private Polyline mMutablePolyline;
+    //private Polyline mMutablePolyline;
+
+    FrameLayout frame1;
+    FrameLayout frame2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
@@ -60,7 +79,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         restaurantListViewAdapter = new RestaurantListViewAdapter(this, restaurantListServices);
         RecyclerView restaurantsRecyclerView = findViewById(R.id.restaurantList_recyclerView);
         restaurantsRecyclerView.setAdapter(restaurantListViewAdapter);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        frame1 = findViewById(R.id.frame1);
+        frame2 = findViewById(R.id.frame2);
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.delivery_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_zoom) {
+            RecyclerView restaurantsRecyclerView = findViewById(R.id.restaurantList_recyclerView);
+
+            if (item.isChecked()) {
+                restaurantsRecyclerView.setVisibility(View.VISIBLE);
+                item.setChecked(false);
+            } else {
+                restaurantsRecyclerView.setVisibility(View.GONE);
+                item.setChecked(true);
+
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_delivery:
+                    frame1.setVisibility(FrameLayout.VISIBLE);
+                    frame2.setVisibility(FrameLayout.INVISIBLE);
+                    return true;
+                case R.id.navigation_map:
+                    frame1.setVisibility(FrameLayout.INVISIBLE);
+                    frame2.setVisibility(FrameLayout.VISIBLE);
+                    return true;
+
+            }
+            return false;
+        }
+    };
 
     void addMap() {
 
@@ -120,7 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Marker marker = googleMap.addMarker(mo);
                 marker.showInfoWindow();
-               // polylineOptions.add(position);
+                // polylineOptions.add(position);
                 RestaurantMapItem restaurantMapItem = new RestaurantMapItem(restaurantDetails.getKey(), restaurantDetails.getValue().getRestaurantAddress(), ++restaurantPosition, position, marker);
                 restaurantListServices.addRestaurant(restaurantMapItem);
 

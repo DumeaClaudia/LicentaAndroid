@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.map.MapsActivity;
-import com.claudia.restaurants.server.ServerConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;

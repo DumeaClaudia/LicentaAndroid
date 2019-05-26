@@ -28,5 +28,9 @@
     <string name="title_activity_restaurant">Restaurante</string>
     <string name="title_activity_restaurant_details">Produse</string>
     <string name="title_activity_cart">Comanda curenta</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Status livrare</string>
+    <string name="title_activity_delivery">DeliveryActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
