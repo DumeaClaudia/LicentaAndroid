@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
+    public static final String CART_ID_ARG = "CART_ID_ARG";
 
     private GoogleMap googleMap;
     SupportMapFragment mapFragment;
@@ -69,7 +70,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        new MapsActivity.DownloadCartsUpdateMapTask(this).execute(ServerConfig.getServletURL("get_current_cart", ""));
+        Long cartId = getIntent().getLongExtra(MapsActivity.CART_ID_ARG, 0);
+
+
+        new MapsActivity.DownloadCartsUpdateMapTask(this).execute(ServerConfig.getServletURL("get_cart_by_id", "cartId=" + cartId));
 
         restaurantListServices = new RestaurantListServices();
         restaurantListViewAdapter = new RestaurantListViewAdapter(this, restaurantListServices);

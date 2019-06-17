@@ -24,8 +24,10 @@ import com.claudia.restaurants.server.ServerConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -81,11 +83,11 @@ public class CheckoutDialogFragment extends DialogFragment {
                     t.show();
 
                 } else {
-//                      CheckoutDetails details = new CheckoutDetails(telephone, address, paymentValue);
-//                       new CheckoutDialogFragment.CheckoutTask(CheckoutDialogFragment.this, details).execute(ServerConfig.getServletURL("checkout_cart", ""));
-                    Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
-                    intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                    CheckoutDialogFragment.this.getContext().startActivity(intent);
+                      CheckoutDetails details = new CheckoutDetails(telephone, address, paymentValue);
+                       new CheckoutDialogFragment.CheckoutTask(CheckoutDialogFragment.this, details).execute(ServerConfig.getServletURL("checkout_cart", ""));
+                    //Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
+                   // intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    //CheckoutDialogFragment.this.getContext().startActivity(intent);
 
                 }
 
@@ -98,6 +100,7 @@ public class CheckoutDialogFragment extends DialogFragment {
 
         private CheckoutDetails details;
         CheckoutDialogFragment dialog;
+        long cartId = 0;
 
         public CheckoutTask(CheckoutDialogFragment dialog, CheckoutDetails details) {
             this.dialog = dialog;
@@ -135,6 +138,15 @@ public class CheckoutDialogFragment extends DialogFragment {
                 int response = conn.getResponseCode();
                 Log.d("CLAU_LOG", "The response is: " + response);
 
+                BufferedReader bufferedInputStream = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String resp = "";
+                String line = bufferedInputStream.readLine();
+                while (line != null) {
+                    resp = resp + line;
+                    line = bufferedInputStream.readLine();
+                }
+                 cartId = Long.parseLong(resp.replace('\"', ' ').trim());
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -146,9 +158,10 @@ public class CheckoutDialogFragment extends DialogFragment {
 
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            //        Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
-            //       intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-            //       CheckoutDialogFragment.this.getContext().startActivity(intent);
+                   Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
+                   intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                   intent.putExtra(MapsActivity.CART_ID_ARG, cartId);
+            CheckoutDialogFragment.this.getContext().startActivity(intent);
         }
     }
 
