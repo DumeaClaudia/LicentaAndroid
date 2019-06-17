@@ -144,8 +144,17 @@ public class CartActivity extends AppCompatActivity {
             TextView totalPrice = cartDetailsActivity.findViewById(R.id.total_textView);
             totalPrice.setText("Total: " + String.format("%.2f", total) + " RON");
 
+            Button sendButton = cartDetailsActivity.findViewById(R.id.sendCommand_button);
+            if(total==0.0){
+                sendButton.setEnabled(false);
+            }else{
+                sendButton.setEnabled(true);
+            }
 
         }
+
+
+
 
     }
 

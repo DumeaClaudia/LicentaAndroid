@@ -21,7 +21,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
     LoginActivity loginActivity;
-    String username;  String password;
+    String username;
+    String password;
 
     public UserLoginTask(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
@@ -33,8 +34,6 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
 
         username = params[0];
         password = params[1];
-
-        // String text = String.format(getResources().getString(R.string.userLogged), username);
 
         HttpURLConnection conn;
         try {
@@ -53,8 +52,7 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
             if (response == 401) {
                 return false;
             } else {
-
-           List<HttpCookie> cookies = ServerConfig.CookieManager.getCookieStore().getCookies();
+                List<HttpCookie> cookies = ServerConfig.CookieManager.getCookieStore().getCookies();
                 Log.d("CLAU_LOG", "Cookies" + cookies.size());
             }
 

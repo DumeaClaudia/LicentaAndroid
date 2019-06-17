@@ -1,7 +1,8 @@
 package com.claudia.restaurants.map;
 
 import android.Manifest;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,6 @@ import android.widget.FrameLayout;
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.cart.ProductDetailsCartItem;
 import com.claudia.restaurants.cart.UserProductsItem;
-import com.claudia.restaurants.comment.CommentActivity;
 import com.claudia.restaurants.server.DownloadCurrentCart;
 import com.claudia.restaurants.server.ServerConfig;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,14 +35,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener {
 
@@ -80,7 +76,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         RecyclerView restaurantsRecyclerView = findViewById(R.id.restaurantList_recyclerView);
         restaurantsRecyclerView.setAdapter(restaurantListViewAdapter);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         frame1 = findViewById(R.id.frame1);
         frame2 = findViewById(R.id.frame2);
@@ -208,7 +204,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         settings.setMapToolbarEnabled(true);
         settings.setMyLocationButtonEnabled(true);
         settings.setCompassEnabled(true);
-        googleMap.setContentDescription("restarurants");
+        googleMap.setContentDescription("restaurants");
         googleMap.setTrafficEnabled(true);
 
 

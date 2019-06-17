@@ -17,7 +17,7 @@
         android:fontFamily="serif"
         android:hint="Telefon"
         android:inputType="phone"
-        android:text="076" />
+        android:text="0761 234 567" />
 
     <EditText
         android:id="@+id/address_textView"
@@ -27,7 +27,7 @@
         android:fontFamily="serif"
         android:hint="Adresa"
         android:inputType="textPostalAddress"
-        android:text="home" />
+        android:text="Adresa" />
 
     <TextView
         android:id="@+id/payment_textView"

@@ -28,25 +28,45 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant_details);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         restaurantId = getIntent().getStringExtra(RESTAURANT_ID_ARG);
 
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         if (restaurantId != null) {
-            new RestaurantDetailsActivity.DownloadRestaurantProductsTask(RestaurantDetailsActivity.this).execute(ServerConfig.getServletURL("get_restaurant_details", "restaurantId=" + restaurantId));
+            new RestaurantDetailsActivity.DownloadRestaurantProductsTask(RestaurantDetailsActivity.this)
+                    .execute(ServerConfig.getServletURL("get_restaurant_details", "restaurantId=" + restaurantId));
 
         }
-
+        DownloadImageTask.init_cache();
 
         ExpandableListView expandableListView = findViewById(R.id.products_expandableListView);
         restaurantDetailsExpandableListViewAdapter = new RestaurantDetailsExpandableListViewAdapter(this);
         expandableListView.setAdapter(restaurantDetailsExpandableListViewAdapter);
 
 
-        DownloadImageTask.init_cache();
     }
+
+    class DownloadRestaurantProductsTask extends AsyncTask<String, Void, String> {
+        private AppCompatActivity restaurantDetailsActivity;
+        private RestaurantProductsItem restaurantDetailsItem;
+
+        public DownloadRestaurantProductsTask(AppCompatActivity restaurantDetailsActivity) {
+            this.restaurantDetailsActivity = restaurantDetailsActivity;
+
+        }
+
+        protected String doInBackground(String... urls) {
+            restaurantDetailsItem = new DownloadRestaurantProductList(urls[0]).invoke();
+            return "";
+        }
+
+        protected void onPostExecute(String s) {
+            restaurantDetailsExpandableListViewAdapter.setItem(restaurantDetailsItem);
+        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,26 +91,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    class DownloadRestaurantProductsTask extends AsyncTask<String, Void, String> {
-        private AppCompatActivity restaurantDetailsActivity;
-        private RestaurantProductsItem restaurantDetailsItem;
-
-        public DownloadRestaurantProductsTask(AppCompatActivity restaurantDetailsActivity) {
-            this.restaurantDetailsActivity = restaurantDetailsActivity;
-
-        }
-
-        protected String doInBackground(String... urls) {
-            restaurantDetailsItem = new DownloadRestaurantProductList(urls[0]).invoke();
-            return "";
-        }
-
-        protected void onPostExecute(String s) {
-            restaurantDetailsExpandableListViewAdapter.setItem(restaurantDetailsItem);
-        }
-
     }
 
 }

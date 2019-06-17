@@ -58,7 +58,7 @@
                         android:id="@+id/restaurantList_recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="5"
+                        android:layout_weight="6"
                         app:layoutManager="LinearLayoutManager"
                         tools:listitem="@layout/restaurant_map_list_item">
 
@@ -75,7 +75,7 @@
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         tools:context=".map.MapsActivity" />
 
                     <ImageView
@@ -113,7 +113,8 @@
                         android:fontFamily="serif"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
-                        android:text="Comanda dumneavoastra a ajuns la noi,"
+                        android:text="Comanda dumneavoastră a ajuns la noi,"
+                        android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +127,10 @@
                         android:layout_width="230dp"
                         android:layout_height="24dp"
                         android:layout_marginTop="8dp"
-                        android:text="aproximativ pana la livrare."
+                        android:fontFamily="serif"
+                        android:text="aproximativ până la livrare."
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -149,10 +153,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="120 min"
+                        android:text="80 min"
                         android:textColor="@color/colorPrimary"
                         android:textSize="24sp"
-                        android:textStyle="bold"
+                        android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/progressBar3" />

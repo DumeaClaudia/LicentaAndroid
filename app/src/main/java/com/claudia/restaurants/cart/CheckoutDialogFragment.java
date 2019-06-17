@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.claudia.restaurants.R;
 import com.claudia.restaurants.map.MapsActivity;
+import com.claudia.restaurants.server.ServerConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,12 +77,12 @@ public class CheckoutDialogFragment extends DialogFragment {
                 String paymentValue = payment.getText().toString();
 
                 if (telephone.isEmpty() || address.isEmpty() || paymentValue.isEmpty()) {
-                    Toast t = Toast.makeText(CheckoutDialogFragment.this.getContext(), "Toate campurile sunt obligatorii1", Toast.LENGTH_LONG);
+                    Toast t = Toast.makeText(CheckoutDialogFragment.this.getContext(), "Toate câmpurile sunt obligatorii!", Toast.LENGTH_LONG);
                     t.show();
 
                 } else {
-                    //  CheckoutDetails details = new CheckoutDetails(telephone, address, paymentValue);
-                    //   new CheckoutDialogFragment.CheckoutTask(CheckoutDialogFragment.this, details).execute(ServerConfig.getServletURL("checkout_cart", ""));
+//                      CheckoutDetails details = new CheckoutDetails(telephone, address, paymentValue);
+//                       new CheckoutDialogFragment.CheckoutTask(CheckoutDialogFragment.this, details).execute(ServerConfig.getServletURL("checkout_cart", ""));
                     Intent intent = new Intent(CheckoutDialogFragment.this.getContext(), MapsActivity.class);
                     intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                     CheckoutDialogFragment.this.getContext().startActivity(intent);
